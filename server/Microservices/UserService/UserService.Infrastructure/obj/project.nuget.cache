@@ -1,8 +1,10 @@
 {
   "version": 2,
-  "dgSpecHash": "KAoNg8cj7/Q=",
+  "dgSpecHash": "4fWy0GLeM5k=",
   "success": true,
   "projectFilePath": "/Users/nikitapapko/project/buget-manager/server/Microservices/UserService/UserService.Infrastructure/UserService.Infrastructure.csproj",
-  "expectedPackageFiles": [],
+  "expectedPackageFiles": [
+    "/Users/nikitapapko/.nuget/packages/bcrypt.net-next/4.0.3/bcrypt.net-next.4.0.3.nupkg.sha512"
+  ],
   "logs": []
 }
