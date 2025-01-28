@@ -111,3 +111,6 @@ fabric.properties
 .idea/caches/build_file_checksums.ser
 
 # End of https://www.toptal.com/developers/gitignore/api/macos,rider
+/server/Microservices/AnalysisService/.idea/
+/server/Microservices/BudgetService/.idea/
+/server/Microservices/UserService/.idea/
