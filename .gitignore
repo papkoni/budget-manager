@@ -14,10 +14,9 @@ Icon
 
 *.suo
 *.user
-_ReSharper.*
-bin
-obj
-packages
+bin/
+obj/
+
 
 # Files that might appear in the root of a volume
 .DocumentRevisions-V100
