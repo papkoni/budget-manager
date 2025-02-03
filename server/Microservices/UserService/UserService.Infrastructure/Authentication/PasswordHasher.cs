@@ -1,6 +1,6 @@
 using UserService.Application.Interfaces.Auth;
 
-namespace UserService.Infrastructure;
+namespace UserService.Infrastructure.Authentication;
 
 public class PasswordHasher: IPasswordHasher
 {
@@ -11,7 +11,7 @@ public class PasswordHasher: IPasswordHasher
 
     public bool Verify(string password, string hashPassword)
     {
-        return BCrypt.Net.BCrypt.Verify(password,hashPassword);
+        return BCrypt.Net.BCrypt.EnhancedVerify(password,hashPassword);
         
     }
     

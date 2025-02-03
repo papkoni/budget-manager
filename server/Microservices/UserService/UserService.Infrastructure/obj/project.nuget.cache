@@ -1,10 +1,12 @@
 {
   "version": 2,
-  "dgSpecHash": "cPBzX/0+pk8=",
+  "dgSpecHash": "SbjbP6f35ns=",
   "success": true,
   "projectFilePath": "/Users/nikitapapko/project/buget-manager/server/Microservices/UserService/UserService.Infrastructure/UserService.Infrastructure.csproj",
   "expectedPackageFiles": [
     "/Users/nikitapapko/.nuget/packages/bcrypt.net-next/4.0.3/bcrypt.net-next.4.0.3.nupkg.sha512",
+    "/Users/nikitapapko/.nuget/packages/mapster/7.4.0/mapster.7.4.0.nupkg.sha512",
+    "/Users/nikitapapko/.nuget/packages/mapster.core/1.2.1/mapster.core.1.2.1.nupkg.sha512",
     "/Users/nikitapapko/.nuget/packages/microsoft.bcl.memory/9.0.0/microsoft.bcl.memory.9.0.0.nupkg.sha512",
     "/Users/nikitapapko/.nuget/packages/microsoft.extensions.dependencyinjection.abstractions/8.0.0/microsoft.extensions.dependencyinjection.abstractions.8.0.0.nupkg.sha512",
     "/Users/nikitapapko/.nuget/packages/microsoft.extensions.logging.abstractions/8.0.0/microsoft.extensions.logging.abstractions.8.0.0.nupkg.sha512",

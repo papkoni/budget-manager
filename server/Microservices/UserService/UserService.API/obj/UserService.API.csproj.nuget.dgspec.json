@@ -31,6 +31,9 @@
               },
               "/Users/nikitapapko/project/buget-manager/server/Microservices/UserService/UserService.Infrastructure/UserService.Infrastructure.csproj": {
                 "projectPath": "/Users/nikitapapko/project/buget-manager/server/Microservices/UserService/UserService.Infrastructure/UserService.Infrastructure.csproj"
+              },
+              "/Users/nikitapapko/project/buget-manager/server/Microservices/UserService/UserService.Persistence/UserService.Persistence.csproj": {
+                "projectPath": "/Users/nikitapapko/project/buget-manager/server/Microservices/UserService/UserService.Persistence/UserService.Persistence.csproj"
               }
             }
           }
@@ -50,10 +53,6 @@
         "net8.0": {
           "targetAlias": "net8.0",
           "dependencies": {
-            "MediatR": {
-              "target": "Package",
-              "version": "[12.4.1, )"
-            },
             "Microsoft.AspNetCore.Authentication.JwtBearer": {
               "target": "Package",
               "version": "[8.0.12, )"
@@ -63,6 +62,12 @@
               "version": "[2.3.0, )"
             },
             "Microsoft.AspNetCore.OpenApi": {
+              "target": "Package",
+              "version": "[8.0.12, )"
+            },
+            "Microsoft.EntityFrameworkCore.Design": {
+              "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
+              "suppressParent": "All",
               "target": "Package",
               "version": "[8.0.12, )"
             },
@@ -136,6 +141,12 @@
       "frameworks": {
         "net8.0": {
           "targetAlias": "net8.0",
+          "dependencies": {
+            "Mapster": {
+              "target": "Package",
+              "version": "[7.4.0, )"
+            }
+          },
           "imports": [
             "net461",
             "net462",
@@ -214,6 +225,84 @@
             "System.IdentityModel.Tokens.Jwt": {
               "target": "Package",
               "version": "[8.3.1, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/8.0.405/PortableRuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "/Users/nikitapapko/project/buget-manager/server/Microservices/UserService/UserService.Persistence/UserService.Persistence.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "/Users/nikitapapko/project/buget-manager/server/Microservices/UserService/UserService.Persistence/UserService.Persistence.csproj",
+        "projectName": "UserService.Persistence",
+        "projectPath": "/Users/nikitapapko/project/buget-manager/server/Microservices/UserService/UserService.Persistence/UserService.Persistence.csproj",
+        "packagesPath": "/Users/nikitapapko/.nuget/packages/",
+        "outputPath": "/Users/nikitapapko/project/buget-manager/server/Microservices/UserService/UserService.Persistence/obj/",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "/Users/nikitapapko/.nuget/NuGet/NuGet.Config"
+        ],
+        "originalTargetFrameworks": [
+          "net8.0"
+        ],
+        "sources": {
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net8.0": {
+            "targetAlias": "net8.0",
+            "projectReferences": {
+              "/Users/nikitapapko/project/buget-manager/server/Microservices/UserService/UserService.Application/UserService.Application.csproj": {
+                "projectPath": "/Users/nikitapapko/project/buget-manager/server/Microservices/UserService/UserService.Application/UserService.Application.csproj"
+              }
+            }
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        },
+        "restoreAuditProperties": {
+          "enableAudit": "true",
+          "auditLevel": "low",
+          "auditMode": "direct"
+        }
+      },
+      "frameworks": {
+        "net8.0": {
+          "targetAlias": "net8.0",
+          "dependencies": {
+            "Microsoft.EntityFrameworkCore": {
+              "target": "Package",
+              "version": "[8.0.12, )"
+            },
+            "Microsoft.EntityFrameworkCore.Tools": {
+              "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[8.0.12, )"
+            },
+            "Npgsql.EntityFrameworkCore.PostgreSQL": {
+              "target": "Package",
+              "version": "[8.0.11, )"
             }
           },
           "imports": [

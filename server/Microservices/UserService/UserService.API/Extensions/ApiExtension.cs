@@ -1,7 +1,7 @@
 using System.Text;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
-using UserService.Infrastructure;
+using UserService.Infrastructure.Authentication;
 
 
 namespace UserService.API.Extensions;
@@ -41,14 +41,7 @@ public static class ApiExtension
                         Encoding.UTF8.GetBytes(jwtOptions!.SecretKey))
                 };
 
-                options.Events = new JwtBearerEvents
-                {
-                    OnMessageReceived = context =>
-                    {
-                        context.Token = context.Request.Cookies["secretCookie"];
-                        return Task.CompletedTask;
-                    }
-                };
+                
 
                     
             });

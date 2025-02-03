@@ -6,7 +6,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UserService.Application", "
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UserService.Infrastructure", "UserService.Infrastructure\UserService.Infrastructure.csproj", "{CC66F74C-E5B2-4F56-9E0C-FC9DD09FAB34}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UserService.Persistence", "UserService.Persistence\UserService.Persistence.csproj", "{DAF36CA9-9661-494C-AAE4-87997C9B8770}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UserService.Persistence", "UserService.Persistence\UserService.Persistence.csproj", "{9BF65C9F-C9EE-433D-A04B-9CDCF2650A38}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -26,9 +26,9 @@ Global
 		{CC66F74C-E5B2-4F56-9E0C-FC9DD09FAB34}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CC66F74C-E5B2-4F56-9E0C-FC9DD09FAB34}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CC66F74C-E5B2-4F56-9E0C-FC9DD09FAB34}.Release|Any CPU.Build.0 = Release|Any CPU
-		{DAF36CA9-9661-494C-AAE4-87997C9B8770}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{DAF36CA9-9661-494C-AAE4-87997C9B8770}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{DAF36CA9-9661-494C-AAE4-87997C9B8770}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{DAF36CA9-9661-494C-AAE4-87997C9B8770}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9BF65C9F-C9EE-433D-A04B-9CDCF2650A38}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9BF65C9F-C9EE-433D-A04B-9CDCF2650A38}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9BF65C9F-C9EE-433D-A04B-9CDCF2650A38}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9BF65C9F-C9EE-433D-A04B-9CDCF2650A38}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
