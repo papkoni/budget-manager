@@ -35,6 +35,7 @@ public class ExceptionMiddleware
             {
                 InvalidTokenException => StatusCodes.Status404NotFound,
                 BadRequestException => StatusCodes.Status400BadRequest,
+                NotFoundException => StatusCodes.Status404NotFound,
                 _ => StatusCodes.Status500InternalServerError
             },
             Detail = ex.Message,
