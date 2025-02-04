@@ -107,20 +107,5 @@ public class AuthService: IAuthService
         return tokens;
     }
     
-    public async Task<bool> LogOutAsync(Guid userId)
-    {
-        var foundUser = await _userRepository.GetByIdAsync(userId);
-        if (foundUser?.RefreshToken == null)
-        {
-            throw new NotFoundException("User not found");
-        }
-
-        await _refreshTokenRepository.DeleteAsync(foundUser.RefreshToken.Id);
-        
-        await _userServiceDbContext.SaveChangesAsync();
-        
-        return true;
-        
-        
-    }
+    
 }

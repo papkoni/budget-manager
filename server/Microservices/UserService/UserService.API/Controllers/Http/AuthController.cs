@@ -31,6 +31,15 @@ public class AuthController: ControllerBase
         return Ok( tokens.AccessToken );
     }
     
+    [HttpPost("/logout")]
+    public IActionResult Logout()
+    {
+        Response.Cookies.Delete("secretCookie"); 
+
+        return Ok();
+    }
+
+    
     [HttpPost("/login")]
     public async Task<IActionResult> Login([FromBody] LoginUserRequest request)
     {
@@ -51,4 +60,6 @@ public class AuthController: ControllerBase
 
         return Ok( tokens.AccessToken );
     }
+    
+    
 }
