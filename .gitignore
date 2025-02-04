@@ -121,3 +121,5 @@ fabric.properties
 /server/Microservices/AnalysisService/.idea/
 /server/Microservices/BudgetService/.idea/
 /server/Microservices/UserService/.idea/
+/server/Microservices/AnalysisService/.idea/
+/server/Microservices/AnalysisService/AnalysisService.API/obj/

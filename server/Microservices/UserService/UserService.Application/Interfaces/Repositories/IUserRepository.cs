@@ -10,5 +10,5 @@ public interface IUserRepository
     Task<bool> DeleteAsync(string id);
     Task<bool> UpdateAsync(UserModel user);
     Task<List<UserModel>> GetAllAsync();
-
+    
 }

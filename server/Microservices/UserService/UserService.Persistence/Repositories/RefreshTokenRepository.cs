@@ -11,13 +11,11 @@ public class RefreshTokenRepository: IRefreshTokenRepository
     public RefreshTokenRepository(UserServiceDbContext context)
     {
         _context = context;
-
     }
     
     public async Task AddAsync(RefreshTokenModel refreshToken)
     {
         await _context.RefreshTokens.AddAsync(refreshToken);
-        await _context.SaveChangesAsync();
     }
     
     public async Task<bool> UpdateTokenAsync(Guid? id, string token, int expirationMinutes)

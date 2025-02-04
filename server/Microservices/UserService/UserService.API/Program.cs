@@ -1,6 +1,8 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
 using UserService.API.Extensions;
+using UserService.API.Middleware;
+using UserService.Application.Interfaces;
 using UserService.Application.Interfaces.Auth;
 using UserService.Application.Interfaces.Repositories;
 using UserService.Application.Interfaces.Services;
@@ -20,7 +22,7 @@ builder.Services.AddApiAuthentication(builder.Configuration);
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-builder.Services.AddDbContext<UserServiceDbContext>(
+builder.Services.AddDbContext<IUserServiceDbContext,UserServiceDbContext>(
     options =>
     {
         options.UseNpgsql(builder.Configuration.GetConnectionString(nameof(UserServiceDbContext)));
@@ -68,6 +70,9 @@ builder.Services.AddSwaggerGen(c =>
 
 var app = builder.Build();
 
+app.UseMiddleware<ExceptionMiddleware>();
+
+
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
@@ -76,12 +81,6 @@ if (app.Environment.IsDevelopment())
     //app.ApplyMigrations();
 
 }
-
-
-
-
-
-
 
 app.UseHttpsRedirection();
 

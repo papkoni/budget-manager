@@ -20,7 +20,7 @@ public class UserController: ControllerBase
     
     [Authorize]
     [HttpGet]
-    public async Task<ActionResult<List<UsersResponce>>> GetAllBooks()
+    public async Task<ActionResult<List<UsersResponce>>> GetAllUsers()
     {
         var response = await _userService.GetAllAsync();
         
