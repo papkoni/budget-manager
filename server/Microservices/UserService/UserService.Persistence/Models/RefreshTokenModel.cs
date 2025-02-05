@@ -1,4 +1,4 @@
-namespace UserService.Application.Models;
+namespace UserService.Persistence.Models;
 
 public class RefreshTokenModel
 {
@@ -7,7 +7,6 @@ public class RefreshTokenModel
     public string Token { get; set; } = string.Empty;
     public DateTime CreatedDate { get; set; }
     public DateTime ExpiryDate { get; set; } 
-
     public virtual UserModel User { get; set; } = null!;
 
     public RefreshTokenModel() { }
@@ -18,7 +17,6 @@ public class RefreshTokenModel
         Token = token;
         CreatedDate = DateTime.Now ;
         ExpiryDate = CreatedDate.AddMinutes(expiryDate);
-
         UserId = userId;
     }
 }

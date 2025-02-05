@@ -1,6 +1,6 @@
-using UserService.Application.Interfaces.Auth;
+using UserService.Persistence.Interfaces.Auth;
 
-namespace UserService.Infrastructure.Authentication;
+namespace UserService.Application.Infrastructure.Authentication;
 
 public class PasswordHasher: IPasswordHasher
 {

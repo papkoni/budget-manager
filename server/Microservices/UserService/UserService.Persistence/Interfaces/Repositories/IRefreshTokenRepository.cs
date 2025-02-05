@@ -1,6 +1,6 @@
-using UserService.Application.Models;
+using UserService.Persistence.Models;
 
-namespace UserService.Application.Interfaces.Repositories;
+namespace UserService.Persistence.Interfaces.Repositories;
 
 public interface IRefreshTokenRepository
 {

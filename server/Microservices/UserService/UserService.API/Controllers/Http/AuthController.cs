@@ -8,7 +8,6 @@ namespace UserService.API.Controllers.Http;
 [Route("auth")]
 public class AuthController: ControllerBase
 {
-    
     private readonly IAuthService _authService;
 
     public AuthController(IAuthService authService )
@@ -60,6 +59,4 @@ public class AuthController: ControllerBase
 
         return Ok( tokens.AccessToken );
     }
-    
-    
 }

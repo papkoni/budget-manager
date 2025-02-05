@@ -1,14 +1,13 @@
 using System.Security.Claims;
 using System.Text;
-using UserService.Application.Interfaces.Auth;
-using UserService.Application.Models;
+
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
-using UserService.Application.DTO;
-using UserService.Application.Extensions;
+using UserService.Persistence.Interfaces.Auth;
+using UserService.Persistence.Models;
 
-namespace UserService.Infrastructure.Authentication;
+namespace UserService.Application.Infrastructure.Authentication;
 
 public class JwtProvider : IJwtProvider
 {

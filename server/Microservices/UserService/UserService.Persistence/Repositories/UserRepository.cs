@@ -1,6 +1,6 @@
 using Microsoft.EntityFrameworkCore;
-using UserService.Application.Interfaces.Repositories;
-using UserService.Application.Models;
+using UserService.Persistence.Interfaces.Repositories;
+using UserService.Persistence.Models;
 
 namespace UserService.Persistence.Repositories;
 
@@ -8,19 +8,15 @@ public class UserRepository: IUserRepository
 {
     private readonly UserServiceDbContext _context;
 
-
     public UserRepository(UserServiceDbContext context)
     {
         _context = context;
-
     }
     
     public async Task AddAsync(UserModel user)
     {
         await _context.Users.AddAsync(user);
     }
-    
-    
     
     public async Task<UserModel?> GetByEmailAsync(string email)
     {
@@ -65,7 +61,6 @@ public class UserRepository: IUserRepository
 
         return rowsAffected > 0;
     }
-    
     
     public async Task<List<UserModel>> GetAllAsync()
     {

@@ -1,6 +1,6 @@
 using System.ComponentModel;
 
-namespace UserService.Application.Enums;
+namespace UserService.Persistence.Enums;
 
 public enum Role
 {

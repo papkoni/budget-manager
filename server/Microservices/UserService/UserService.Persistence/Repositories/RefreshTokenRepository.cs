@@ -1,6 +1,6 @@
 using Microsoft.EntityFrameworkCore;
-using UserService.Application.Interfaces.Repositories;
-using UserService.Application.Models;
+using UserService.Persistence.Interfaces.Repositories;
+using UserService.Persistence.Models;
 
 namespace UserService.Persistence.Repositories;
 
@@ -40,7 +40,6 @@ public class RefreshTokenRepository: IRefreshTokenRepository
             .FirstOrDefaultAsync(rt => rt.Token == token);
     }
     
-    
     public async Task<bool> DeleteAsync(Guid id)
     {
         var rowsAffected= await _context.RefreshTokens
@@ -49,6 +48,4 @@ public class RefreshTokenRepository: IRefreshTokenRepository
         
         return rowsAffected > 0;
     }
-    
-    
 }

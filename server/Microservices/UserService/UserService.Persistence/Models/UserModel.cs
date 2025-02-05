@@ -1,6 +1,6 @@
-using UserService.Application.Enums;
+using UserService.Persistence.Enums;
 
-namespace UserService.Application.Models;
+namespace UserService.Persistence.Models;
 
 public class UserModel
 {

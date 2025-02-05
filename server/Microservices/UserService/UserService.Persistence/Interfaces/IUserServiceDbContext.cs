@@ -1,7 +1,7 @@
-using UserService.Application.Models;
-using Microsoft.EntityFrameworkCore; 
+using Microsoft.EntityFrameworkCore;
+using UserService.Persistence.Models;
 
-namespace UserService.Application.Interfaces;
+namespace UserService.Persistence.Interfaces;
 
 public interface IUserServiceDbContext
 {

@@ -2,13 +2,14 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
 using UserService.API.Extensions;
 using UserService.API.Middleware;
-using UserService.Application.Interfaces;
-using UserService.Application.Interfaces.Auth;
-using UserService.Application.Interfaces.Repositories;
+
 using UserService.Application.Interfaces.Services;
 using UserService.Application.Services;
-using UserService.Infrastructure.Authentication;
+using UserService.Application.Infrastructure.Authentication;
 using UserService.Persistence;
+using UserService.Persistence.Interfaces;
+using UserService.Persistence.Interfaces.Auth;
+using UserService.Persistence.Interfaces.Repositories;
 using UserService.Persistence.Repositories;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -72,13 +73,12 @@ var app = builder.Build();
 
 app.UseMiddleware<ExceptionMiddleware>();
 
-
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
-    //app.ApplyMigrations();
+    app.ApplyMigrations();
 
 }
 

@@ -1,11 +1,12 @@
 using UserService.Application.DTO;
-using UserService.Application.Enums;
 using UserService.Application.Exceptions;
 using UserService.Application.Interfaces;
-using UserService.Application.Interfaces.Auth;
-using UserService.Application.Models;
-using UserService.Application.Interfaces.Repositories;
 using UserService.Application.Interfaces.Services;
+using UserService.Persistence.Enums;
+using UserService.Persistence.Interfaces;
+using UserService.Persistence.Interfaces.Auth;
+using UserService.Persistence.Interfaces.Repositories;
+using UserService.Persistence.Models;
 
 namespace UserService.Application.Services;
 
@@ -30,7 +31,6 @@ public class AuthService: IAuthService
         _refreshTokenRepository = refreshTokenRepository;
         _userServiceDbContext = userServiceDbContext;
     }
-    
     
     public async Task<TokensDTO> RefreshTokensAsync(string refreshToken)
     {
@@ -82,8 +82,6 @@ public class AuthService: IAuthService
         return tokens;
     }
     
-    
-    
     public async Task<TokensDTO> LoginAsync(string email, string password)
     {
         var foundUser = await _userRepository.GetByEmailAsync(email);
@@ -106,6 +104,4 @@ public class AuthService: IAuthService
         
         return tokens;
     }
-    
-    
 }

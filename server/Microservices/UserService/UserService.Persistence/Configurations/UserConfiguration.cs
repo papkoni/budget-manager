@@ -1,7 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using UserService.Application.Enums;
-using UserService.Application.Models;
+using UserService.Persistence.Enums;
+using UserService.Persistence.Models;
 
 namespace UserService.Persistence.Configurations;
 
@@ -33,7 +33,5 @@ public partial class UserConfiguration : IEntityTypeConfiguration<UserModel>
         builder.HasOne(u => u.RefreshToken)
             .WithOne(r => r.User)
             .HasForeignKey<RefreshTokenModel>(r => r.UserId);
-
-
     }
 }

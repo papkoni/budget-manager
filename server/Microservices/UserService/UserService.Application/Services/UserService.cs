@@ -1,16 +1,15 @@
 using Mapster;
 using UserService.Application.DTO;
 using UserService.Application.Exceptions;
-using UserService.Application.Interfaces.Repositories;
 using UserService.Application.Interfaces.Services;
-using UserService.Application.Models;
+using UserService.Persistence.Interfaces.Repositories;
+using UserService.Persistence.Models;
 
 namespace UserService.Application.Services;
 
 public class UserService: IUserService
 {
     private readonly IUserRepository _userRepository;
-   
     
     public UserService(IUserRepository userRepository)
     {
