@@ -1,7 +1,5 @@
-using UserService.Application.DTO;
-
-namespace UserService.Application.Interfaces.Services;
-using UserService.Application.Models;
+using UserService.Persistence.Models;
+namespace UserService.Persistence.Interfaces.Services;
 
 
 public interface IUserService

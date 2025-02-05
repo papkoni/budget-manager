@@ -1,7 +1,6 @@
-using UserService.Application.DTO;
-using UserService.Application.Models;
+using UserService.Persistence.Models;
 
-namespace UserService.Application.Interfaces.Services;
+namespace UserService.Persistence.Interfaces.Services;
 
 public interface IAuthService
 {
