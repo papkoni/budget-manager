@@ -17,7 +17,7 @@ public class JwtProvider : IJwtProvider
     {
         _options = options.Value;
     }
-
+    
     public TokensDTO GenerateTokens(UserModel user)
     {
         
@@ -49,23 +49,6 @@ public class JwtProvider : IJwtProvider
         };
 
         return GenerateJwtToken(claims, _options.RefreshTokenExpiresMinutes);
-    }
-
-    private string GenerateJwtToken(IEnumerable<Claim> claims, double expiresIn)
-    {
-        var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_options.SecretKey));
-        var credentials = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
-
-        var tokenDescriptor = new SecurityTokenDescriptor
-        {
-            Subject = new ClaimsIdentity(claims),
-            Expires = DateTime.UtcNow.AddMinutes(expiresIn),
-            SigningCredentials = credentials,
-        };
-
-        var tokenHandler = new JwtSecurityTokenHandler();
-        var token = tokenHandler.CreateToken(tokenDescriptor);
-        return tokenHandler.WriteToken(token);
     }
     
     public int GetRefreshTokenExpirationMinutes()
@@ -133,4 +116,20 @@ public class JwtProvider : IJwtProvider
         }
     }
 
+    private string GenerateJwtToken(IEnumerable<Claim> claims, double expiresIn)
+    {
+        var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_options.SecretKey));
+        var credentials = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
+
+        var tokenDescriptor = new SecurityTokenDescriptor
+        {
+            Subject = new ClaimsIdentity(claims),
+            Expires = DateTime.UtcNow.AddMinutes(expiresIn),
+            SigningCredentials = credentials,
+        };
+
+        var tokenHandler = new JwtSecurityTokenHandler();
+        var token = tokenHandler.CreateToken(tokenDescriptor);
+        return tokenHandler.WriteToken(token);
+    }
 }

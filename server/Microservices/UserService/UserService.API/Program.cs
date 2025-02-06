@@ -16,7 +16,6 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddHttpContextAccessor(); 
 
-
 builder.Services.AddControllers();
 
 builder.Services.AddApiAuthentication(builder.Configuration);
@@ -31,7 +30,6 @@ builder.Services.AddDbContext<IUserServiceDbContext,UserServiceDbContext>(
 );
 
 var services = builder.Services;
-
 
 services.Configure<JwtOptions>(builder.Configuration.GetSection(nameof(JwtOptions)));
 services.AddScoped<IJwtProvider, JwtProvider>();
@@ -68,7 +66,6 @@ builder.Services.AddSwaggerGen(c =>
     });
 });
 
-
 var app = builder.Build();
 
 app.UseMiddleware<ExceptionMiddleware>();
@@ -86,7 +83,6 @@ app.UseHttpsRedirection();
 
 app.UseAuthentication();
 app.UseAuthorization();
-
 
 app.MapControllers();
 

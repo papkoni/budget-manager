@@ -48,18 +48,17 @@ public class UserRepository: IUserRepository
         return true; 
     }
     
-    public async Task<bool> UpdateAsync(UserModel user)
+    public async Task<bool> Update(UserModel user)
     {
-        //rowsAffected has count of update rows
-        var rowsAffected = await _context.Users
-            .Where(u => u.Id == user.Id)
-            .ExecuteUpdateAsync(setters => setters
-                    .SetProperty(u => u.Email, user.Email)
-                    .SetProperty(u => u.Name, user.Name)
-                
-            );
+        var foundUser = await _context.Users
+            .FirstOrDefaultAsync(u => u.Id == user.Id);
 
-        return rowsAffected > 0;
+        if (foundUser == null)
+        {
+            return false;
+        }
+        _context.Users.Update(user);
+        return true; 
     }
     
     public async Task<List<UserModel>> GetAllAsync()

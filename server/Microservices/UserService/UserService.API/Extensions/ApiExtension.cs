@@ -39,11 +39,7 @@ public static class ApiExtension
                     ValidateIssuerSigningKey = true,
                     IssuerSigningKey = new SymmetricSecurityKey(
                         Encoding.UTF8.GetBytes(jwtOptions!.SecretKey))
-                };
-
-                
-
-                    
+                };   
             });
     }
 }

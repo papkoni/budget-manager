@@ -20,19 +20,23 @@ public class RefreshTokenRepository: IRefreshTokenRepository
     
     public async Task<bool> UpdateTokenAsync(Guid? id, string token, int expirationMinutes)
     {
-        //rowsAffected has count of update rows
-        var rowsAffected = await _context.RefreshTokens
-            .Where(rt => rt.Id == id)
-            .ExecuteUpdateAsync(s => s
-                .SetProperty(rt => rt.Token, token)
-                .SetProperty(rt => rt.CreatedDate, DateTime.UtcNow)
-                .SetProperty(rt => rt.ExpiryDate, DateTime.UtcNow.AddMinutes(expirationMinutes) )
+        if (id == null) return false; 
 
-            );
-        
-        return rowsAffected > 0;
+        var refreshToken = await _context.RefreshTokens
+            .FirstOrDefaultAsync(rt => rt.Id == id); 
+
+        if (refreshToken == null)
+        {
+            return false; 
+        }
+
+        refreshToken.Token = token;
+        refreshToken.CreatedDate = DateTime.UtcNow;
+        refreshToken.ExpiryDate = DateTime.UtcNow.AddMinutes(expirationMinutes);
+
+        return true;
     }
-
+    
     public async Task<RefreshTokenModel?> GetRefreshTokenAsync(string token)
     {
         return await _context.RefreshTokens
@@ -42,10 +46,15 @@ public class RefreshTokenRepository: IRefreshTokenRepository
     
     public async Task<bool> DeleteAsync(Guid id)
     {
-        var rowsAffected= await _context.RefreshTokens
-            .Where(b => b.Id == id)
-            .ExecuteDeleteAsync();
-        
-        return rowsAffected > 0;
+        var refreshToken = await _context.RefreshTokens
+            .FirstOrDefaultAsync(b => b.Id == id);
+
+        if (refreshToken == null)
+        {
+            return false; 
+        }
+
+        _context.RefreshTokens.Remove(refreshToken);
+        return true; 
     }
 }

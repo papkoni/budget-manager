@@ -1,3 +1,4 @@
+using System.Security.Claims;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using UserService.Application.DTO;
@@ -5,14 +6,12 @@ using UserService.Application.Interfaces.Services;
 
 namespace UserService.API.Controllers.Http;
 
-
 [ApiController]
 [Route("users")]
 public class UserController: ControllerBase
 {
     private readonly IUserService _userService;
-
-
+    
     public UserController(IUserService userService )
     {
         _userService = userService;
@@ -27,15 +26,26 @@ public class UserController: ControllerBase
         return Ok(response);
     }
     
+    [Authorize]
     [HttpGet("{id}")]
     public async Task<IActionResult> GetUserById(Guid id)
     {
-        var user = await _userService.GetUserByIdAsync(id);
-        if (user == null)
+        var userIdClaim = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+        var userRoleClaim = User.FindFirst(ClaimTypes.Role)?.Value;
+        if (userIdClaim == null)
         {
-            return NotFound(new { message = "User not found" });
+            return Unauthorized(new { message = "Unauthorized access" });
         }
         
-        return Ok(user);
+        bool isOwner = userIdClaim == id.ToString();
+        bool isAdmin = userRoleClaim == "Admin";
+        if (!isOwner && !isAdmin)
+        {
+            return Forbid();
+        }
+
+        var foundUser = await _userService.GetUserByIdAsync(id);
+
+        return Ok(foundUser);
     }
 }

@@ -20,7 +20,6 @@ public class UserService: IUserService
     {
         var users = await _userRepository.GetAllAsync();
         
-        
         return users.Adapt<List<UsersResponce>>();    
     }
     

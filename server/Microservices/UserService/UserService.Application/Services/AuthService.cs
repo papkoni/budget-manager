@@ -60,15 +60,14 @@ public class AuthService: IAuthService
     
     public async Task<TokensDTO> RegisterAsync(string name, string password, string email)
     {
-    
         var foundUser = await _userRepository.GetByEmailAsync(email);
         if (foundUser != null)
         {
             throw new BadRequestException("User already exists");
         }
-    
+        
         var hashedPassword = _passwordHasher.Generate(password);
-
+        
         var user = new UserModel(Guid.NewGuid(), name, hashedPassword, email, Role.User);
         
         var tokens = _jwtProvider.GenerateTokens(user);

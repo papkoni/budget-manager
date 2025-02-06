@@ -12,8 +12,8 @@ using UserService.Persistence;
 namespace UserService.Persistence.Migrations
 {
     [DbContext(typeof(UserServiceDbContext))]
-    [Migration("20250131081929_InitialCreate")]
-    partial class InitialCreate
+    [Migration("20250206085551_initial")]
+    partial class initial
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -25,7 +25,7 @@ namespace UserService.Persistence.Migrations
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
-            modelBuilder.Entity("UserService.Application.Models.RefreshTokenModel", b =>
+            modelBuilder.Entity("UserService.Persistence.Models.RefreshTokenModel", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -53,7 +53,7 @@ namespace UserService.Persistence.Migrations
                     b.ToTable("RefreshToken", (string)null);
                 });
 
-            modelBuilder.Entity("UserService.Application.Models.UserModel", b =>
+            modelBuilder.Entity("UserService.Persistence.Models.UserModel", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -82,16 +82,16 @@ namespace UserService.Persistence.Migrations
                     b.ToTable("User", (string)null);
                 });
 
-            modelBuilder.Entity("UserService.Application.Models.RefreshTokenModel", b =>
+            modelBuilder.Entity("UserService.Persistence.Models.RefreshTokenModel", b =>
                 {
-                    b.HasOne("UserService.Application.Models.UserModel", "User")
+                    b.HasOne("UserService.Persistence.Models.UserModel", "User")
                         .WithOne("RefreshToken")
-                        .HasForeignKey("UserService.Application.Models.RefreshTokenModel", "UserId");
+                        .HasForeignKey("UserService.Persistence.Models.RefreshTokenModel", "UserId");
 
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("UserService.Application.Models.UserModel", b =>
+            modelBuilder.Entity("UserService.Persistence.Models.UserModel", b =>
                 {
                     b.Navigation("RefreshToken");
                 });
