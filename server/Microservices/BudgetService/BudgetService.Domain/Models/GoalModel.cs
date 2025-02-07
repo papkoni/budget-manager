@@ -1,11 +1,15 @@
 namespace BudgetService.Domain.Models;
 
-public class BudgetGoal
+public class GoalModel
 {
-    public BudgetGoal()
+    public GoalModel(Guid userId, decimal targetAmount, decimal currentAmount, DateTime deadline)
     {
-        Id = Guid.NewGuid();                        // Генерация уникального идентификатора
-        CreatedAt = DateTime.UtcNow;               // Установка времени создания
+        Id = Guid.NewGuid();
+        UserId = userId;
+        TargetAmount = targetAmount;
+        CurrentAmount = currentAmount;
+        Deadline = deadline;
+        CreatedAt = DateTime.UtcNow;
     }
     
     public Guid Id { get; set; }                   // Уникальный идентификатор цели
