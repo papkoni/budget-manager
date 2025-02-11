@@ -1,6 +1,7 @@
+using UserService.Application.DTO;
 using UserService.Persistence.Models;
 
-namespace UserService.Persistence.Interfaces.Auth;
+namespace UserService.Application.Interfaces.Auth;
 
 public interface IJwtProvider
 {

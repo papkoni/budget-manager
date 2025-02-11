@@ -18,23 +18,14 @@ public class RefreshTokenRepository: IRefreshTokenRepository
         await _context.RefreshTokens.AddAsync(refreshToken);
     }
     
-    public async Task<bool> UpdateTokenAsync(Guid? id, string token, int expirationMinutes)
+    public async Task UpdateTokenAsync(Guid? id, string token, int expirationMinutes)
     {
-        if (id == null) return false; 
-
         var refreshToken = await _context.RefreshTokens
             .FirstOrDefaultAsync(rt => rt.Id == id); 
-
-        if (refreshToken == null)
-        {
-            return false; 
-        }
 
         refreshToken.Token = token;
         refreshToken.CreatedDate = DateTime.UtcNow;
         refreshToken.ExpiryDate = DateTime.UtcNow.AddMinutes(expirationMinutes);
-
-        return true;
     }
     
     public async Task<RefreshTokenModel?> GetRefreshTokenAsync(string token)
@@ -44,17 +35,11 @@ public class RefreshTokenRepository: IRefreshTokenRepository
             .FirstOrDefaultAsync(rt => rt.Token == token);
     }
     
-    public async Task<bool> DeleteAsync(Guid id)
+    public async Task DeleteAsync(Guid id)
     {
         var refreshToken = await _context.RefreshTokens
             .FirstOrDefaultAsync(b => b.Id == id);
-
-        if (refreshToken == null)
-        {
-            return false; 
-        }
-
+        
         _context.RefreshTokens.Remove(refreshToken);
-        return true; 
     }
 }

@@ -10,7 +10,6 @@ public class ExceptionMiddleware
     public ExceptionMiddleware(RequestDelegate next)
     {
         _next = next;
-      
     }
 
     public async Task InvokeAsync(HttpContext context)
@@ -32,10 +31,13 @@ public class ExceptionMiddleware
             Title = "An error occurred while processing your request.",
             Status = ex switch
             {
-                InvalidTokenException => StatusCodes.Status404NotFound,
+                
+                InvalidTokenException => StatusCodes.Status401Unauthorized,
                 BadRequestException => StatusCodes.Status400BadRequest,
                 NotFoundException => StatusCodes.Status404NotFound,
-                _ => StatusCodes.Status500InternalServerError
+                UnauthorizedException => StatusCodes.Status401Unauthorized,
+                ForbiddenException => StatusCodes.Status403Forbidden,
+                 _ => StatusCodes.Status500InternalServerError
             },
             Detail = ex.Message,
             Instance = context.Request.Path

@@ -19,7 +19,7 @@ public class UserController: ControllerBase
     
     [Authorize]
     [HttpGet]
-    public async Task<ActionResult<List<UsersResponce>>> GetAllUsers()
+    public async Task<ActionResult<List<UsersResponse>>> GetAllUsers()
     {
         var response = await _userService.GetAllAsync();
         
@@ -28,24 +28,13 @@ public class UserController: ControllerBase
     
     [Authorize]
     [HttpGet("{id}")]
-    public async Task<IActionResult> GetUserById(Guid id)
+    public async Task<IActionResult> GetUserById([FromRoute] Guid id)
     {
         var userIdClaim = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
         var userRoleClaim = User.FindFirst(ClaimTypes.Role)?.Value;
-        if (userIdClaim == null)
-        {
-            return Unauthorized(new { message = "Unauthorized access" });
-        }
-        
-        bool isOwner = userIdClaim == id.ToString();
-        bool isAdmin = userRoleClaim == "Admin";
-        if (!isOwner && !isAdmin)
-        {
-            return Forbid();
-        }
+       
+        var user = await _userService.GetUserByIdAsync(id, userIdClaim, userRoleClaim);
 
-        var foundUser = await _userService.GetUserByIdAsync(id);
-
-        return Ok(foundUser);
+        return Ok(user);
     }
 }

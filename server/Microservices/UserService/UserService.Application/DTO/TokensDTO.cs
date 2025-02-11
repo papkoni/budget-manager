@@ -1,5 +1,5 @@
 
-namespace UserService.Persistence.Models;
+namespace UserService.Application.DTO;
 
 public record TokensDTO(
     string RefreshToken,

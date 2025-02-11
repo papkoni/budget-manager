@@ -1,14 +1,14 @@
 using System.Text;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
+using Microsoft.OpenApi.Models;
 using UserService.Application.Infrastructure.Authentication;
-
 
 namespace UserService.API.Extensions;
 
 public static class ApiExtension
 {
-    public static void AddApiAuthentication(
+    public static void AddApi(
         this IServiceCollection services,
         IConfiguration configuration)
     {
@@ -41,5 +41,31 @@ public static class ApiExtension
                         Encoding.UTF8.GetBytes(jwtOptions!.SecretKey))
                 };   
             });
+        services.AddSwaggerGen(c =>
+        {
+            c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+            {
+                Description = "Введите 'Bearer {токен}' (без кавычек)",
+                Name = "Authorization",
+                In = ParameterLocation.Header,
+                Type = SecuritySchemeType.ApiKey,
+                Scheme = "Bearer"
+            });
+
+            c.AddSecurityRequirement(new OpenApiSecurityRequirement
+            {
+                {
+                    new OpenApiSecurityScheme
+                    {
+                        Reference = new OpenApiReference
+                        {
+                            Type = ReferenceType.SecurityScheme,
+                            Id = "Bearer"
+                        }
+                    },
+                    Array.Empty<string>()
+                }
+            });
+        });
     }
 }

@@ -5,6 +5,6 @@ namespace UserService.Application.Interfaces.Services;
 
 public interface IUserService
 {
-    Task<List<UsersResponce>> GetAllAsync();
-    Task<UserModel?> GetUserByIdAsync(Guid id);
+    Task<List<UsersResponse>> GetAllAsync();
+    Task<UserResponse?> GetUserByIdAsync(Guid id, string? userIdClaim, string? userRoleClaim);
 }

@@ -1,4 +1,4 @@
-using UserService.Persistence.Interfaces.Auth;
+using UserService.Application.Interfaces.Auth;
 
 namespace UserService.Application.Infrastructure.Authentication;
 

@@ -16,21 +16,33 @@ public class UserService: IUserService
         _userRepository = userRepository;
     }
     
-    public async Task<List<UsersResponce>> GetAllAsync()
+    public async Task<List<UsersResponse>> GetAllAsync()
     {
         var users = await _userRepository.GetAllAsync();
         
-        return users.Adapt<List<UsersResponce>>();    
+        return users.Adapt<List<UsersResponse>>();    
     }
     
-    public async Task<UserModel?> GetUserByIdAsync(Guid id)
+    public async Task<UserResponse?> GetUserByIdAsync(Guid id, string? userIdClaim, string? userRoleClaim)
     {
+        if (userIdClaim == null)
+        {
+            throw new UnauthorizedException("Unauthorized access");
+        }
+        
+        bool isOwner = userIdClaim == id.ToString();
+        bool isAdmin = userRoleClaim == "Admin";
+        if (!isOwner && !isAdmin)
+        {
+            throw new ForbiddenException("Access is forbidden.");
+        }
+        
         var user = await _userRepository.GetByIdAsync(id);
         if (user == null)
         {
             throw new NotFoundException("User not found");
         }
-
-        return user;
+        
+        return user.Adapt<UserResponse>();
     }
 }

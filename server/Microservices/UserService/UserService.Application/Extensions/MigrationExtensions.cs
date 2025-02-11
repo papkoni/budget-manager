@@ -1,7 +1,9 @@
+using Microsoft.AspNetCore.Builder;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
 using UserService.Persistence;
 
-namespace UserService.API.Extensions;
+namespace UserService.Application.Extensions;
 
 public static class MigrationExtensions
 {

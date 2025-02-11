@@ -20,14 +20,11 @@ public class AuthController: ControllerBase
     {
         var context = HttpContext;
 
-        var tokens  = await _authService.RegisterAsync(
-            request.Name, 
-            request.Password,
-            request.Email);
+        var tokens  = await _authService.RegisterAsync(request);
 
         context.Response.Cookies.Append("secretCookie", tokens.RefreshToken);
 
-        return Ok( tokens.AccessToken );
+        return Ok(tokens.AccessToken);
     }
     
     [HttpPost("/logout")]
@@ -41,13 +38,17 @@ public class AuthController: ControllerBase
     [HttpPost("/login")]
     public async Task<IActionResult> Login([FromBody] LoginUserRequest request)
     {
+        Console.WriteLine(request.Email);
         var context = HttpContext;
+        Console.WriteLine(request.Email);
 
         var tokens = await _authService.LoginAsync(request.Email, request.Password);
+        Console.WriteLine(request.Email);
 
         context.Response.Cookies.Append("secretCookie", tokens.RefreshToken);
+        Console.WriteLine(request.Email);
 
-        return Ok( tokens.AccessToken );
+        return Ok(tokens.AccessToken);
     }
     
     [HttpPost("/refresh")]
@@ -56,6 +57,6 @@ public class AuthController: ControllerBase
         var refreshToken = Request.Cookies["secretCookie"];
         var tokens = await _authService.RefreshTokensAsync(refreshToken);
 
-        return Ok( tokens.AccessToken );
+        return Ok(tokens.AccessToken);
     }
 }

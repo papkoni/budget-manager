@@ -22,12 +22,12 @@ public class UserRepository: IUserRepository
     {
         return  await _context.Users
             .AsNoTracking()
+            .Include(u => u.RefreshToken)
             .FirstOrDefaultAsync(u => u.Email == email);
     }
     
     public async Task<UserModel?> GetByIdAsync(Guid id)
     {
-            
         return await _context.Users
             .AsNoTracking()
             .FirstOrDefaultAsync(u => u.Id == id);
@@ -37,12 +37,7 @@ public class UserRepository: IUserRepository
     {
         var user = await _context.Users
             .FirstOrDefaultAsync(u => u.Id == Guid.Parse(id));
-
-        if (user == null)
-        {
-            return false;
-        }
-
+        
         _context.Users.Remove(user);
 
         return true; 
@@ -50,14 +45,8 @@ public class UserRepository: IUserRepository
     
     public async Task<bool> Update(UserModel user)
     {
-        var foundUser = await _context.Users
-            .FirstOrDefaultAsync(u => u.Id == user.Id);
-
-        if (foundUser == null)
-        {
-            return false;
-        }
         _context.Users.Update(user);
+        
         return true; 
     }
     

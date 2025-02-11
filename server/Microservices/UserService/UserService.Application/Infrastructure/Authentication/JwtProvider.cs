@@ -4,7 +4,8 @@ using System.Text;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
-using UserService.Persistence.Interfaces.Auth;
+using UserService.Application.DTO;
+using UserService.Application.Interfaces.Auth;
 using UserService.Persistence.Models;
 
 namespace UserService.Application.Infrastructure.Authentication;
@@ -20,9 +21,9 @@ public class JwtProvider : IJwtProvider
     
     public TokensDTO GenerateTokens(UserModel user)
     {
-        
         var accessToken = GenerateAccessToken(user);
         var refreshToken = GenerateRefreshToken(user.Id);
+        
         return new TokensDTO(accessToken, refreshToken);
     }
 
@@ -130,6 +131,7 @@ public class JwtProvider : IJwtProvider
 
         var tokenHandler = new JwtSecurityTokenHandler();
         var token = tokenHandler.CreateToken(tokenDescriptor);
+        
         return tokenHandler.WriteToken(token);
     }
 }
