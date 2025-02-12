@@ -1,4 +1,4 @@
-namespace BudgetService.Persistence.Entities;
+namespace BudgetService.Domain.Entities;
 
 public class BudgetEntity
 {

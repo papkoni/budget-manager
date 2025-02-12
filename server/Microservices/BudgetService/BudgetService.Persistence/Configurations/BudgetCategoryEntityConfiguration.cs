@@ -1,4 +1,4 @@
-using BudgetService.Persistence.Entities;
+using BudgetService.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
