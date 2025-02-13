@@ -5,6 +5,7 @@ using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using UserService.Application.DTO;
+using UserService.Application.Exceptions;
 using UserService.Application.Interfaces.Auth;
 using UserService.Persistence.Models;
 
@@ -29,7 +30,7 @@ public class JwtProvider : IJwtProvider
 
     public string GenerateAccessToken(UserModel user)
     {
-        var claims = new List<Claim>
+        var claims = new[]
         {
             new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
             new Claim(ClaimTypes.Name, user.Name),
@@ -43,10 +44,9 @@ public class JwtProvider : IJwtProvider
 
     public string GenerateRefreshToken(Guid userId)
     {
-        var claims = new List<Claim>
+        var claims = new[]
         {
             new Claim(ClaimTypes.NameIdentifier, userId.ToString()),
-            new Claim("isRefreshToken", "true"),
         };
 
         return GenerateJwtToken(claims, _options.RefreshTokenExpiresMinutes);
@@ -74,22 +74,22 @@ public class JwtProvider : IJwtProvider
                 ClockSkew = TimeSpan.Zero,
                 RequireExpirationTime = true,
                 RequireSignedTokens = true,
-                ValidAlgorithms = new[] { SecurityAlgorithms.HmacSha256 }
+                ValidAlgorithms = new[] {SecurityAlgorithms.HmacSha256}
             };
 
-            var principal = tokenHandler.ValidateToken(refreshToken, validationParameters, out SecurityToken validatedToken);
+            tokenHandler.ValidateToken(refreshToken, validationParameters, out SecurityToken validatedToken);
 
-            var isRefreshTokenClaim = principal.Claims.FirstOrDefault(c => c.Type == "isRefreshToken");
-            if (isRefreshTokenClaim?.Value != "true")
+            if (validatedToken is not JwtSecurityToken)
             {
-                throw new SecurityTokenException("Invalid refresh token.");
+                throw new SecurityTokenException("Invalid JWT format.");
             }
-
+            
             return true;
         }
         catch (Exception ex)
         {
             Console.WriteLine($"Token validation failed: {ex.Message}");
+            
             return false;
         }
     }
@@ -102,29 +102,32 @@ public class JwtProvider : IJwtProvider
 
             var jwtToken = tokenHandler.ReadJwtToken(refreshToken);
 
-            var userIdClaim = jwtToken?.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier);
+            var userIdClaim = jwtToken?.Claims.FirstOrDefault(c => c.Type == "nameid");
             if (userIdClaim == null)
             {
-                throw new Exception("UserId claim not found in the refresh token.");
+                throw new InvalidTokenException("UserId claim not found in the refresh token.");
             }
 
             return Guid.Parse(userIdClaim.Value);
         }
+        catch (SecurityTokenException ex)
+        {
+            throw new InvalidTokenException($"Invalid refresh token: {ex.Message}");
+        }
         catch (Exception ex)
         {
-            Console.WriteLine($"Failed to extract userId from refresh token: {ex.Message}");
-            throw new Exception("Error extracting userId from refresh token.");
+            throw new InvalidTokenException("Error extracting userId from refresh token.");
         }
     }
 
-    private string GenerateJwtToken(IEnumerable<Claim> claims, double expiresIn)
+    private string GenerateJwtToken(Claim[] claims, double expiresIn)
     {
         var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_options.SecretKey));
         var credentials = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
 
         var tokenDescriptor = new SecurityTokenDescriptor
         {
-            Subject = new ClaimsIdentity(claims),
+            Claims = claims.ToDictionary(c => c.Type, c => (object)c.Value),
             Expires = DateTime.UtcNow.AddMinutes(expiresIn),
             SigningCredentials = credentials,
         };

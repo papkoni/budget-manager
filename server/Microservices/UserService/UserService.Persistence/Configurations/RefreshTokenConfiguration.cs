@@ -28,6 +28,10 @@ public class RefreshTokenConfiguration : IEntityTypeConfiguration<RefreshTokenMo
             v => v.ToUniversalTime(),  // Convert to UTC before save
             v => DateTime.SpecifyKind(v, DateTimeKind.Utc)); // // Convert to UTC after upload
         
+        builder.Property(r => r.IsRevoked)
+            .IsRequired()
+            .HasDefaultValue(false);
+        
         builder.HasOne(r => r.User)
             .WithOne(u => u.RefreshToken)
             .HasForeignKey<RefreshTokenModel>(r => r.UserId);

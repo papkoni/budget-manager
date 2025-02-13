@@ -36,7 +36,7 @@ public class AuthService: IAuthService
         _validator = validator;
     }
     
-    public async Task<TokensDTO> RefreshTokensAsync(string refreshToken)
+    public async Task<TokensDTO> RefreshTokensAsync(string refreshToken, CancellationToken cancellationToken)
     {
         var isValidToken = _jwtProvider.ValidateRefreshToken(refreshToken);
         if (!isValidToken)
@@ -45,24 +45,32 @@ public class AuthService: IAuthService
         }
 
         var extractedUserId = _jwtProvider.GetUserIdFromRefreshToken(refreshToken);
-        var user = await _userRepository.GetByIdAsync(extractedUserId);
+        var user = await _userRepository.GetByIdAsync(extractedUserId, cancellationToken);
         if (user == null)
         {
             throw new NotFoundException("User not found");
         }
         
+        var isRevokedToken = user.RefreshToken == null || user.RefreshToken.IsRevoked;
+        if (isRevokedToken)
+        {
+            throw new UnauthorizedException("Refresh token has been revoked.");
+        }
+        
+        if (user.RefreshToken.ExpiryDate < DateTime.UtcNow)
+        {
+            throw new InvalidTokenException("Refresh token has expired.");
+        }
+        
         var tokens = _jwtProvider.GenerateTokens(user);
-        await _refreshTokenRepository.UpdateTokenAsync( 
-            user.RefreshToken?.Id,
-            tokens.RefreshToken, 
-            _jwtProvider.GetRefreshTokenExpirationMinutes() );
-
-        await _userServiceDbContext.SaveChangesAsync();
+        UpdateRefreshToken(user, tokens.RefreshToken, _jwtProvider.GetRefreshTokenExpirationMinutes() );
+        
+        await _userServiceDbContext.SaveChangesAsync(cancellationToken);
         
         return tokens;
     }
     
-    public async Task<TokensDTO> RegisterAsync(RegisterUserRequest registerUser)
+    public async Task<TokensDTO> RegisterAsync(RegisterUserRequest registerUser, CancellationToken cancellationToken)
     {
         var validationResult =  _validator.Validate(registerUser);
         if (!validationResult.IsValid)
@@ -71,7 +79,7 @@ public class AuthService: IAuthService
             throw new BadRequestException(string.Join("; ", errors));
         }
         
-        var existingUser = await _userRepository.GetByEmailAsync(registerUser.Email);
+        var existingUser = await _userRepository.GetByEmailAsync(registerUser.Email, cancellationToken);
         if (existingUser != null)
         {
             throw new BadRequestException("User already exists");
@@ -84,18 +92,17 @@ public class AuthService: IAuthService
         var tokens = _jwtProvider.GenerateTokens(user);
         var refreshToken = new RefreshTokenModel(Guid.NewGuid(), tokens.RefreshToken, _jwtProvider.GetRefreshTokenExpirationMinutes(), user.Id);
         
-        await _userRepository.AddAsync(user);
-        await _refreshTokenRepository.AddAsync(refreshToken);
+        await _userRepository.AddAsync(user, cancellationToken);
+        await _refreshTokenRepository.AddAsync(refreshToken, cancellationToken);
         
-        await _userServiceDbContext.SaveChangesAsync();
+        await _userServiceDbContext.SaveChangesAsync(cancellationToken);
 
         return tokens;
     }
     
-    public async Task<TokensDTO> LoginAsync(string email, string password)
+    public async Task<TokensDTO> LoginAsync(string email, string password, CancellationToken cancellationToken)
     {
-        var user = await _userRepository.GetByEmailAsync(email);
-
+        var user = await _userRepository.GetByEmailAsync(email, cancellationToken);
         if (user == null)
         {
             throw new NotFoundException("User not found");
@@ -108,10 +115,35 @@ public class AuthService: IAuthService
         }
 
         var tokens = _jwtProvider.GenerateTokens(user);
-        await _refreshTokenRepository.UpdateTokenAsync(user.RefreshToken?.Id, tokens.RefreshToken, _jwtProvider.GetRefreshTokenExpirationMinutes() );
+        UpdateRefreshToken(user, tokens.RefreshToken, _jwtProvider.GetRefreshTokenExpirationMinutes() );
         
-        await _userServiceDbContext.SaveChangesAsync();
+        await _userServiceDbContext.SaveChangesAsync(cancellationToken);
         
         return tokens;
+    }
+    
+    public async Task RevokeTokenAsync(Guid id, CancellationToken cancellationToken)
+    {
+        var user = await _userRepository.GetByIdAsync(id, cancellationToken);
+        if (user == null)
+        {
+            throw new NotFoundException("User not found");
+        }
+        
+        user.RefreshToken.IsRevoked = true;
+        
+        _refreshTokenRepository.Update(user.RefreshToken);
+        
+        await _userServiceDbContext.SaveChangesAsync(cancellationToken);
+    }
+    
+    private void UpdateRefreshToken(UserModel user, string newToken, int expirationMinutes)
+    {
+        user.RefreshToken.Token = newToken;
+        user.RefreshToken.CreatedDate = DateTime.UtcNow;
+        user.RefreshToken.ExpiryDate = DateTime.UtcNow.AddMinutes(expirationMinutes);
+        user.RefreshToken.IsRevoked = false;
+        
+        _refreshTokenRepository.Update(user.RefreshToken);
     }
 }

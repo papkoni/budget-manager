@@ -13,33 +13,21 @@ public class RefreshTokenRepository: IRefreshTokenRepository
         _context = context;
     }
     
-    public async Task AddAsync(RefreshTokenModel refreshToken)
+    public async Task AddAsync(RefreshTokenModel refreshToken, CancellationToken cancellationToken)
     {
-        await _context.RefreshTokens.AddAsync(refreshToken);
+        await _context.RefreshTokens.AddAsync(refreshToken, cancellationToken);
     }
     
-    public async Task UpdateTokenAsync(Guid? id, string token, int expirationMinutes)
+    public void Update(RefreshTokenModel refreshToken)
     {
-        var refreshToken = await _context.RefreshTokens
-            .FirstOrDefaultAsync(rt => rt.Id == id); 
-
-        refreshToken.Token = token;
-        refreshToken.CreatedDate = DateTime.UtcNow;
-        refreshToken.ExpiryDate = DateTime.UtcNow.AddMinutes(expirationMinutes);
+        _context.RefreshTokens.Update(refreshToken);
     }
     
-    public async Task<RefreshTokenModel?> GetRefreshTokenAsync(string token)
+    public async Task<RefreshTokenModel?> GetRefreshTokenAsync(string token, CancellationToken cancellationToken)
     {
         return await _context.RefreshTokens
+            .AsNoTracking()
             .Include(rt => rt.User) 
-            .FirstOrDefaultAsync(rt => rt.Token == token);
-    }
-    
-    public async Task DeleteAsync(Guid id)
-    {
-        var refreshToken = await _context.RefreshTokens
-            .FirstOrDefaultAsync(b => b.Id == id);
-        
-        _context.RefreshTokens.Remove(refreshToken);
+            .FirstOrDefaultAsync(rt => rt.Token == token, cancellationToken);
     }
 }

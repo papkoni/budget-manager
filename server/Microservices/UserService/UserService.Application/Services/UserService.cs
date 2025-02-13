@@ -16,14 +16,14 @@ public class UserService: IUserService
         _userRepository = userRepository;
     }
     
-    public async Task<List<UsersResponse>> GetAllAsync()
+    public async Task<List<UsersResponse>> GetAllAsync(CancellationToken cancellationToken)
     {
-        var users = await _userRepository.GetAllAsync();
+        var users = await _userRepository.GetAllAsync(cancellationToken);
         
         return users.Adapt<List<UsersResponse>>();    
     }
     
-    public async Task<UserResponse?> GetUserByIdAsync(Guid id, string? userIdClaim, string? userRoleClaim)
+    public async Task<UserResponse?> GetUserByIdAsync(Guid id, string? userIdClaim, string? userRoleClaim, CancellationToken cancellationToken)
     {
         if (userIdClaim == null)
         {
@@ -37,7 +37,7 @@ public class UserService: IUserService
             throw new ForbiddenException("Access is forbidden.");
         }
         
-        var user = await _userRepository.GetByIdAsync(id);
+        var user = await _userRepository.GetByIdAsync(id, cancellationToken);
         if (user == null)
         {
             throw new NotFoundException("User not found");

@@ -1,3 +1,4 @@
+using System.Security.Claims;
 using Microsoft.AspNetCore.Mvc;
 using UserService.Application.DTO;
 using UserService.Application.Interfaces.Services;
@@ -16,11 +17,11 @@ public class AuthController: ControllerBase
     }
     
     [HttpPost("/register")]
-    public async Task<IActionResult> Register([FromBody] RegisterUserRequest request)
+    public async Task<IActionResult> Register([FromBody] RegisterUserRequest request, CancellationToken cancellationToken)
     {
         var context = HttpContext;
 
-        var tokens  = await _authService.RegisterAsync(request);
+        var tokens  = await _authService.RegisterAsync(request, cancellationToken);
 
         context.Response.Cookies.Append("secretCookie", tokens.RefreshToken);
 
@@ -28,35 +29,38 @@ public class AuthController: ControllerBase
     }
     
     [HttpPost("/logout")]
-    public IActionResult Logout()
+    public async Task<IActionResult> Logout(CancellationToken cancellationToken)
     {
-        Response.Cookies.Delete("secretCookie"); 
-
+        Response.Cookies.Delete("secretCookie");
+        
+        var userIdClaim = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+        
+        await _authService.RevokeTokenAsync(Guid.Parse(userIdClaim), cancellationToken);
+        
         return Ok();
     }
 
     [HttpPost("/login")]
-    public async Task<IActionResult> Login([FromBody] LoginUserRequest request)
+    public async Task<IActionResult> Login([FromBody] LoginUserRequest request, CancellationToken cancellationToken)
     {
-        Console.WriteLine(request.Email);
         var context = HttpContext;
-        Console.WriteLine(request.Email);
 
-        var tokens = await _authService.LoginAsync(request.Email, request.Password);
-        Console.WriteLine(request.Email);
+        var tokens = await _authService.LoginAsync(request.Email, request.Password, cancellationToken);
 
         context.Response.Cookies.Append("secretCookie", tokens.RefreshToken);
-        Console.WriteLine(request.Email);
 
         return Ok(tokens.AccessToken);
     }
     
     [HttpPost("/refresh")]
-    public async Task<ActionResult<string>> RefreshTokens()
+    public async Task<ActionResult<string>> RefreshTokens(CancellationToken cancellationToken)
     {
         var refreshToken = Request.Cookies["secretCookie"];
-        var tokens = await _authService.RefreshTokensAsync(refreshToken);
+        
+        var tokens = await _authService.RefreshTokensAsync(refreshToken, cancellationToken);
 
+        Response.Cookies.Append("secretCookie", tokens.RefreshToken);
+        
         return Ok(tokens.AccessToken);
     }
 }

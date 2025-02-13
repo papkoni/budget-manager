@@ -13,12 +13,12 @@ public class UserRepository: IUserRepository
         _context = context;
     }
     
-    public async Task AddAsync(UserModel user)
+    public async Task AddAsync(UserModel user, CancellationToken cancellationToken)
     {
         await _context.Users.AddAsync(user);
     }
     
-    public async Task<UserModel?> GetByEmailAsync(string email)
+    public async Task<UserModel?> GetByEmailAsync(string email, CancellationToken cancellationToken)
     {
         return  await _context.Users
             .AsNoTracking()
@@ -26,34 +26,28 @@ public class UserRepository: IUserRepository
             .FirstOrDefaultAsync(u => u.Email == email);
     }
     
-    public async Task<UserModel?> GetByIdAsync(Guid id)
+    public async Task<UserModel?> GetByIdAsync(Guid id, CancellationToken cancellationToken)
     {
         return await _context.Users
             .AsNoTracking()
-            .FirstOrDefaultAsync(u => u.Id == id);
+            .Include(u => u.RefreshToken)
+            .FirstOrDefaultAsync(u => u.Id == id, cancellationToken);
     }
     
-    public async Task<bool> DeleteAsync(string id)
+    public void Delete(UserModel user)
     {
-        var user = await _context.Users
-            .FirstOrDefaultAsync(u => u.Id == Guid.Parse(id));
-        
         _context.Users.Remove(user);
-
-        return true; 
     }
     
-    public async Task<bool> Update(UserModel user)
+    public void Update(UserModel user)
     {
         _context.Users.Update(user);
-        
-        return true; 
     }
     
-    public async Task<List<UserModel>> GetAllAsync()
+    public async Task<List<UserModel>> GetAllAsync(CancellationToken cancellationToken)
     {
         return await _context.Users
             .AsNoTracking()
-            .ToListAsync();
+            .ToListAsync(cancellationToken);
     }
 }
