@@ -34,9 +34,11 @@ public class UserRepository: IUserRepository
             .FirstOrDefaultAsync(u => u.Id == id, cancellationToken);
     }
     
-    public void Delete(UserModel user)
+    public async Task<List<UserModel>> GetAllAsync(CancellationToken cancellationToken)
     {
-        _context.Users.Remove(user);
+        return await _context.Users
+            .AsNoTracking()
+            .ToListAsync(cancellationToken);
     }
     
     public void Update(UserModel user)
@@ -44,10 +46,8 @@ public class UserRepository: IUserRepository
         _context.Users.Update(user);
     }
     
-    public async Task<List<UserModel>> GetAllAsync(CancellationToken cancellationToken)
+    public void Delete(UserModel user)
     {
-        return await _context.Users
-            .AsNoTracking()
-            .ToListAsync(cancellationToken);
+        _context.Users.Remove(user);
     }
 }

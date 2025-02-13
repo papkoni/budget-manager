@@ -18,7 +18,6 @@ public static class ApplicationExtension
         IConfiguration configuration)
     {
         MappingConfig.Configure();
-
         
         services.Configure<JwtOptions>(configuration.GetSection(nameof(JwtOptions)));
         services.AddScoped<IJwtProvider, JwtProvider>();

@@ -9,6 +9,6 @@ public interface IJwtProvider
     string GenerateAccessToken(UserModel user);
     string GenerateRefreshToken(Guid userId);
     int GetRefreshTokenExpirationMinutes();
-    bool ValidateRefreshToken(string refreshToken);
     Guid GetUserIdFromRefreshToken(string refreshToken);
+    bool ValidateRefreshToken(string refreshToken);
 }

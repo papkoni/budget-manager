@@ -51,15 +51,10 @@ public class AuthService: IAuthService
             throw new NotFoundException("User not found");
         }
         
-        var isRevokedToken = user.RefreshToken == null || user.RefreshToken.IsRevoked;
-        if (isRevokedToken)
+        var isInvalidToken = user.RefreshToken == null || user.RefreshToken.IsRevoked || (user.RefreshToken.ExpiryDate < DateTime.UtcNow);
+        if (isInvalidToken)
         {
-            throw new UnauthorizedException("Refresh token has been revoked.");
-        }
-        
-        if (user.RefreshToken.ExpiryDate < DateTime.UtcNow)
-        {
-            throw new InvalidTokenException("Refresh token has expired.");
+            throw new InvalidTokenException("Token is invalid");
         }
         
         var tokens = _jwtProvider.GenerateTokens(user);
@@ -82,7 +77,7 @@ public class AuthService: IAuthService
         var existingUser = await _userRepository.GetByEmailAsync(registerUser.Email, cancellationToken);
         if (existingUser != null)
         {
-            throw new BadRequestException("User already exists");
+            throw new BadRequestException($"A user with the email '{registerUser.Email}' already exists");
         }
         
         var hashedPassword = _passwordHasher.Generate(registerUser.Password);

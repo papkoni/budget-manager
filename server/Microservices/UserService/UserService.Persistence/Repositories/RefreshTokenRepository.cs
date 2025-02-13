@@ -18,16 +18,16 @@ public class RefreshTokenRepository: IRefreshTokenRepository
         await _context.RefreshTokens.AddAsync(refreshToken, cancellationToken);
     }
     
-    public void Update(RefreshTokenModel refreshToken)
-    {
-        _context.RefreshTokens.Update(refreshToken);
-    }
-    
     public async Task<RefreshTokenModel?> GetRefreshTokenAsync(string token, CancellationToken cancellationToken)
     {
         return await _context.RefreshTokens
             .AsNoTracking()
             .Include(rt => rt.User) 
             .FirstOrDefaultAsync(rt => rt.Token == token, cancellationToken);
+    }
+    
+    public void Update(RefreshTokenModel refreshToken)
+    {
+        _context.RefreshTokens.Update(refreshToken);
     }
 }
