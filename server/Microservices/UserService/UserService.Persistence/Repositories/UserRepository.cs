@@ -15,7 +15,7 @@ public class UserRepository: IUserRepository
     
     public async Task AddAsync(UserModel user, CancellationToken cancellationToken)
     {
-        await _context.Users.AddAsync(user);
+        await _context.Users.AddAsync(user, cancellationToken);
     }
     
     public async Task<UserModel?> GetByEmailAsync(string email, CancellationToken cancellationToken)
@@ -23,7 +23,7 @@ public class UserRepository: IUserRepository
         return  await _context.Users
             .AsNoTracking()
             .Include(u => u.RefreshToken)
-            .FirstOrDefaultAsync(u => u.Email == email);
+            .FirstOrDefaultAsync(u => u.Email == email, cancellationToken);
     }
     
     public async Task<UserModel?> GetByIdAsync(Guid id, CancellationToken cancellationToken)
