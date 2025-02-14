@@ -1,4 +1,8 @@
 using BudgetService.Domain.Interfaces;
+using BudgetService.Domain.Interfaces.Repositories;
+using BudgetService.Domain.Interfaces.Repositories.UnitOfWork;
+using BudgetService.Persistence.Repositories;
+using BudgetService.Persistence.Repositories.UnitOfWork;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -11,6 +15,9 @@ public static class PersistenceExtension
         this IServiceCollection services,
         IConfiguration configuration)
     {
+        services.AddScoped<IBudgetRepository, BudgetRepository>();
+        services.AddScoped<IUnitOfWork, UnitOfWork>();
+
         services.AddDbContext<IBudgetServiceDbContext,BudgetServiceDbContext>(
             options =>
             {

@@ -29,4 +29,10 @@
       <ProjectReference Include="..\BudgetService.Persistence\BudgetService.Persistence.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <Folder Include="Controllers\" />
+      <Folder Include="Extensions\" />
+      <Folder Include="Middlewares\" />
+    </ItemGroup>
+
 </Project>

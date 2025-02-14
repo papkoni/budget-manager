@@ -8,7 +8,25 @@
 
     <ItemGroup>
       <PackageReference Include="Mapster" Version="7.4.0" />
+      <PackageReference Include="MediatR" Version="12.4.1" />
       <PackageReference Include="Microsoft.EntityFrameworkCore" Version="9.0.1" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Folder Include="Extensions\" />
+      <Folder Include="Handlers\Commands\BudgetCategory\" />
+      <Folder Include="Handlers\Commands\BudgetTracker\" />
+      <Folder Include="Handlers\Commands\Category\" />
+      <Folder Include="Handlers\Commands\Goal\" />
+      <Folder Include="Handlers\Queries\BudgetCategory\" />
+      <Folder Include="Handlers\Queries\BudgetTracker\" />
+      <Folder Include="Handlers\Queries\Category\" />
+      <Folder Include="Handlers\Queries\Goal\" />
+      <Folder Include="Validators\" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\BudgetService.Domain\BudgetService.Domain.csproj" />
     </ItemGroup>
 
 </Project>

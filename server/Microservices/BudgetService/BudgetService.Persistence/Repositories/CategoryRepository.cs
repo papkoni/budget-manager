@@ -13,12 +13,6 @@ public class CategoryRepository
         _context = context;
     }
     
-    public async Task<CategoryEntity> GetByIdAsync(Guid id)
-    {
-        return await _context.Categories
-            .FirstOrDefaultAsync(c => c.Id == id);
-    }
-    
     public async Task<IEnumerable<CategoryEntity>> GetAllAsync()
     {
         return await _context.Categories.ToListAsync();
@@ -33,21 +27,4 @@ public class CategoryRepository
             .Where(c => c.Type == type)
             .ToListAsync();
     }
-    
-    public async Task AddAsync(CategoryEntity category)
-    {
-        await _context.Categories.AddAsync(category); 
-    }
-    
-    public void Update(CategoryEntity category)
-    {
-        _context.Categories.Update(category);
-    }
-    
-    public void Delete(CategoryEntity category)
-    {
-        _context.Categories.Remove(category);
-    }
-    
-    
 }

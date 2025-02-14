@@ -13,7 +13,6 @@ public class BudgetEntity
     public DateTime CreatedAt { get; set; }
     public DateTime UpdatedAt { get; set; }
 
-    // Навигационное свойство для связи с категориями
     public List<BudgetCategoryEntity> BudgetCategories { get; set; }
 }
 
