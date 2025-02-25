@@ -10,28 +10,25 @@ public class UnitOfWork : IUnitOfWork
     private readonly BudgetServiceDbContext _context;
     private readonly ConcurrentDictionary<Type, object> _repositories = new();
     
-    public IBudgetRepository BudgetRepository { get; }
-
     public UnitOfWork(
         BudgetServiceDbContext context,
-        IBudgetRepository budgetRepository)
+        IBudgetRepository budgetRepository,
+        IBudgetCategoryRepository budgetCategoryRepository,
+        IGoalRepository goalRepository,
+        ICategoryRepository categoryRepository
+    )
     {
         _context = context;
-        
+        BudgetCategoryRepository = budgetCategoryRepository;
+        GoalRepository = goalRepository;
+        CategoryRepository = categoryRepository;
         BudgetRepository = budgetRepository;
     }
-
-    public IGenericRepository<TEntity> Repository<TEntity>() where TEntity : class
-    {
-        var type = typeof(TEntity);
-        if (!_repositories.ContainsKey(type))
-        {
-            var repositoryInstance = new GenericRepository<TEntity>(_context);
-            _repositories[type] = repositoryInstance;
-        }
-
-        return (IGenericRepository<TEntity>)_repositories[type];
-    }
+    
+    public IBudgetRepository BudgetRepository { get; }
+    public IBudgetCategoryRepository BudgetCategoryRepository { get; }
+    public IGoalRepository GoalRepository { get; }
+    public ICategoryRepository CategoryRepository { get; }
 
     public async Task SaveChangesAsync(CancellationToken cancellationToken)
     {

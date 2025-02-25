@@ -66,8 +66,13 @@ namespace BudgetService.Persistence.Migrations
                         .HasMaxLength(10)
                         .HasColumnType("character varying(10)");
 
-                    b.Property<DateTime?>("EndDate")
+                    b.Property<DateTime>("EndDate")
                         .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("character varying(50)");
 
                     b.Property<string>("PeriodType")
                         .IsRequired()
@@ -76,11 +81,6 @@ namespace BudgetService.Persistence.Migrations
 
                     b.Property<DateTime>("StartDate")
                         .HasColumnType("timestamp with time zone");
-
-                    b.Property<string>("Status")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("character varying(50)");
 
                     b.Property<DateTime>("UpdatedAt")
                         .HasColumnType("timestamp with time zone");
@@ -91,31 +91,6 @@ namespace BudgetService.Persistence.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Budgets", (string)null);
-                });
-
-            modelBuilder.Entity("BudgetService.Domain.Entities.BudgetTrackerEntity", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
-
-                    b.Property<Guid>("BudgetId")
-                        .HasColumnType("uuid");
-
-                    b.Property<decimal>("CurrentBalance")
-                        .HasColumnType("decimal(18,2)");
-
-                    b.Property<decimal>("CurrentSpent")
-                        .HasColumnType("decimal(18,2)");
-
-                    b.Property<DateTime>("LastUpdated")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("BudgetId");
-
-                    b.ToTable("BudgetTrackers", (string)null);
                 });
 
             modelBuilder.Entity("BudgetService.Domain.Entities.CategoryEntity", b =>
@@ -138,11 +113,6 @@ namespace BudgetService.Persistence.Migrations
                         .HasMaxLength(100)
                         .HasColumnType("character varying(100)");
 
-                    b.Property<string>("Type")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("character varying(50)");
-
                     b.HasKey("Id");
 
                     b.ToTable("Categories", (string)null);
@@ -164,6 +134,10 @@ namespace BudgetService.Persistence.Migrations
 
                     b.Property<DateTime>("Deadline")
                         .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("text");
 
                     b.Property<decimal>("TargetAmount")
                         .HasColumnType("decimal(18,2)");
@@ -193,15 +167,6 @@ namespace BudgetService.Persistence.Migrations
                     b.Navigation("Budget");
 
                     b.Navigation("Category");
-                });
-
-            modelBuilder.Entity("BudgetService.Domain.Entities.BudgetTrackerEntity", b =>
-                {
-                    b.HasOne("BudgetService.Domain.Entities.BudgetEntity", null)
-                        .WithMany()
-                        .HasForeignKey("BudgetId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
                 });
 
             modelBuilder.Entity("BudgetService.Domain.Entities.BudgetEntity", b =>

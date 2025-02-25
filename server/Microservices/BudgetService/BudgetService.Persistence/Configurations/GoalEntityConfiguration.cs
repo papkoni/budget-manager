@@ -20,9 +20,15 @@ public class GoalEntityConfiguration : IEntityTypeConfiguration<GoalEntity>
             .HasDefaultValue(0);
 
         builder.Property(bg => bg.Deadline)
-            .IsRequired();
-
+            .IsRequired()
+            .HasConversion(
+            v => v.ToUniversalTime(), // Convert to UTC before save
+            v => DateTime.SpecifyKind(v, DateTimeKind.Utc)); // Convert to UTC after upload
+        
         builder.Property(bg => bg.CreatedAt)
-            .IsRequired();
+            .IsRequired()
+            .HasConversion(
+                v => v.ToUniversalTime(), // Convert to UTC before save
+                v => DateTime.SpecifyKind(v, DateTimeKind.Utc)); // Convert to UTC after upload
     }
 }

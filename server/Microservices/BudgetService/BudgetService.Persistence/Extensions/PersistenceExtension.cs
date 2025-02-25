@@ -1,6 +1,7 @@
-using BudgetService.Domain.Interfaces;
+using BudgetService.Domain.Entities;
 using BudgetService.Domain.Interfaces.Repositories;
 using BudgetService.Domain.Interfaces.Repositories.UnitOfWork;
+using BudgetService.Persistence.Interfaces;
 using BudgetService.Persistence.Repositories;
 using BudgetService.Persistence.Repositories.UnitOfWork;
 using Microsoft.EntityFrameworkCore;
@@ -16,6 +17,9 @@ public static class PersistenceExtension
         IConfiguration configuration)
     {
         services.AddScoped<IBudgetRepository, BudgetRepository>();
+        services.AddScoped<ICategoryRepository, CategoryRepository>();
+        services.AddScoped<IBudgetCategoryRepository, BudgetCategoryRepository>();
+        services.AddScoped<IGoalRepository, GoalRepository>();
         services.AddScoped<IUnitOfWork, UnitOfWork>();
 
         services.AddDbContext<IBudgetServiceDbContext,BudgetServiceDbContext>(

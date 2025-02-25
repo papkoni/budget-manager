@@ -4,8 +4,6 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace BudgetService.Persistence.Configurations;
 
-
-
 public class CategoryEntityConfiguration : IEntityTypeConfiguration<CategoryEntity>
 {
     public void Configure(EntityTypeBuilder<CategoryEntity> builder)
@@ -18,10 +16,6 @@ public class CategoryEntityConfiguration : IEntityTypeConfiguration<CategoryEnti
             .HasMaxLength(100)
             .IsRequired();
 
-        builder.Property(c => c.Type)
-            .HasMaxLength(50)
-            .IsRequired();
-
         builder.Property(c => c.GlobalLimit)
             .IsRequired()
             .HasColumnType("decimal(18,2)");
@@ -31,7 +25,10 @@ public class CategoryEntityConfiguration : IEntityTypeConfiguration<CategoryEnti
             .HasColumnType("decimal(18,2)");
 
         builder.Property(c => c.CreatedAt)
-            .IsRequired();
+            .IsRequired()
+            .HasConversion(
+                v => v.ToUniversalTime(), // Convert to UTC before save
+                v => DateTime.SpecifyKind(v, DateTimeKind.Utc)); // Convert to UTC after upload
 
         builder.HasMany(c => c.BudgetCategories)
             .WithOne(bc => bc.Category)

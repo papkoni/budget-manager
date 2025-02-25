@@ -4,7 +4,21 @@ namespace BudgetService.Domain.Interfaces.Repositories;
 
 public interface IBudgetRepository
 {
-    //унаследовать IGeneric
-    Task<List<BudgetEntity>> GetByUserIdAsync(Guid userId);
-    Task<List<BudgetEntity>> GetActiveBudgetsAsync(DateTime currentDate);
+    Task<List<BudgetEntity>> GetByUserIdAsync(
+        Guid userId, 
+        CancellationToken cancellationToken);
+
+    Task<List<BudgetEntity>> GetActiveUserBudgetsAsync(
+        DateTime currentDate, 
+        Guid userId,
+        CancellationToken cancellationToken);
+
+    Task<BudgetEntity?> GetAsync(
+        Guid id, 
+        CancellationToken cancellationToken);
+    Task CreateAsync(
+        BudgetEntity budget,
+        CancellationToken cancellationToken);
+    void Update(BudgetEntity budget);
+    void Delete(BudgetEntity budget);
 }

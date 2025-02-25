@@ -24,18 +24,33 @@ public class BudgetEntityConfiguration : IEntityTypeConfiguration<BudgetEntity>
             .HasMaxLength(50)
             .IsRequired();
 
-        builder.Property(b => b.Status)
+        builder.Property(b => b.Name)
             .HasMaxLength(50)
             .IsRequired();
 
         builder.Property(b => b.StartDate)
-            .IsRequired();
-
+            .IsRequired()
+            .HasConversion(
+            v => v.ToUniversalTime(), // Convert to UTC before save
+            v => DateTime.SpecifyKind(v, DateTimeKind.Utc)); // Convert to UTC after upload
+        
         builder.Property(b => b.CreatedAt)
-            .IsRequired();
-
+            .IsRequired()
+            .HasConversion(
+                v => v.ToUniversalTime(), // Convert to UTC before save
+                v => DateTime.SpecifyKind(v, DateTimeKind.Utc)); // Convert to UTC after upload
+        
+        builder.Property(b => b.EndDate)
+            .IsRequired()
+            .HasConversion(
+                v => v.ToUniversalTime(), // Convert to UTC before save
+                v => DateTime.SpecifyKind(v, DateTimeKind.Utc)); // Convert to UTC after upload
+        
         builder.Property(b => b.UpdatedAt)
-            .IsRequired();
+            .IsRequired()
+            .HasConversion(
+                v => v.ToUniversalTime(), // Convert to UTC before save
+                v => DateTime.SpecifyKind(v, DateTimeKind.Utc)); // Convert to UTC after upload
 
         builder.HasMany(b => b.BudgetCategories)
             .WithOne(bc => bc.Budget)
