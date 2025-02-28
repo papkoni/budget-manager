@@ -8,8 +8,7 @@ using MediatR;
 namespace BudgetService.Application.Handlers.Commands.Category.UpdateCategory;
 
 public class UpdateCategoryCommandHandler(
-    IUnitOfWork unitOfWork,
-    IValidator<CategoryEntity> validator) : IRequestHandler<UpdateCategoryCommand, Unit>
+    IUnitOfWork unitOfWork) : IRequestHandler<UpdateCategoryCommand, Unit>
 {
     public async Task<Unit> Handle(UpdateCategoryCommand request, CancellationToken cancellationToken)
     {
@@ -18,13 +17,6 @@ public class UpdateCategoryCommandHandler(
 
         request.Dto.Adapt(category);
 
-        var validationResult = validator.Validate(category);
-        if (!validationResult.IsValid)
-        {
-            var errors = validationResult.Errors.Select(e => e.ErrorMessage).ToList();
-            throw new BadRequestException(string.Join("; ", errors));
-        }
-        
         unitOfWork.CategoryRepository.Update(category);
         await unitOfWork.SaveChangesAsync(cancellationToken);
 

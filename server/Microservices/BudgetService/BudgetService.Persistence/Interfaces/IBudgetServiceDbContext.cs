@@ -9,4 +9,5 @@ public interface IBudgetServiceDbContext
     DbSet<BudgetEntity> Budgets { get; }
     DbSet<CategoryEntity> Categories { get; }
     DbSet<GoalEntity> Goals { get; }
+    DbSet<T> Set<T>() where T : class;
 }

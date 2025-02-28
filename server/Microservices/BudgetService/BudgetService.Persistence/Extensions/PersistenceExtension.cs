@@ -16,6 +16,7 @@ public static class PersistenceExtension
         this IServiceCollection services,
         IConfiguration configuration)
     {
+        services.AddScoped(typeof(IBaseRepository<>), typeof(BaseRepository<>));
         services.AddScoped<IBudgetRepository, BudgetRepository>();
         services.AddScoped<ICategoryRepository, CategoryRepository>();
         services.AddScoped<IBudgetCategoryRepository, BudgetCategoryRepository>();

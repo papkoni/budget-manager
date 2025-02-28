@@ -8,7 +8,6 @@ namespace BudgetService.Persistence.Repositories.UnitOfWork;
 public class UnitOfWork : IUnitOfWork
 {
     private readonly BudgetServiceDbContext _context;
-    private readonly ConcurrentDictionary<Type, object> _repositories = new();
     
     public UnitOfWork(
         BudgetServiceDbContext context,

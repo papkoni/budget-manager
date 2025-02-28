@@ -1,6 +1,6 @@
-using BudgetService.Application.Validators;
-using BudgetService.Domain.Entities;
-using BudgetService.Domain.Interfaces.Validators;
+using BudgetService.Application.Handlers.Commands.Budget.CreateBudget;
+using BudgetService.Application.Handlers.Commands.BudgetCategory;
+using BudgetService.Application.Interfaces.ValidationServices;
 using FluentValidation;
 using MapsterMapper;
 using Microsoft.Extensions.Configuration;
@@ -15,7 +15,7 @@ public static class ApplicationExtension
         IConfiguration configuration)
     {
         services.AddSingleton<IMapper, Mapper>();
-        services.AddScoped<IValidator<BudgetCategoryEntity>,BudgetCategoryValidator>(); 
+        services.AddValidatorsFromAssemblyContaining<CreateBudgetCommandValidator>();
         services.AddScoped<IBudgetCategoryValidationService, BudgetCategoryValidationService>();
     }
 }

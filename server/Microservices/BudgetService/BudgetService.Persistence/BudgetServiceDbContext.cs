@@ -22,6 +22,5 @@ public class BudgetServiceDbContext : DbContext, IBudgetServiceDbContext
         modelBuilder.ApplyConfiguration(new BudgetEntityConfiguration());
         modelBuilder.ApplyConfiguration(new CategoryEntityConfiguration());
         modelBuilder.ApplyConfiguration(new GoalEntityConfiguration());
-
     }
 } 

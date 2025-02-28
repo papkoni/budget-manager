@@ -1,11 +1,10 @@
-using BudgetService.Domain.Entities;
 using FluentValidation;
 
-namespace BudgetService.Application.Validators;
+namespace BudgetService.Application.Handlers.Commands.BudgetCategory.CreateBudgetCategory;
 
-public class BudgetCategoryValidator : AbstractValidator<BudgetCategoryEntity>
+public class CreateBudgetCategoryCommandValidator: AbstractValidator<CreateBudgetCategoryCommand>
 {
-    public BudgetCategoryValidator()
+    public CreateBudgetCategoryCommandValidator()
     {
         RuleFor(x => x.Amount)
             .GreaterThan(0).WithMessage("Amount must be greater than 0");

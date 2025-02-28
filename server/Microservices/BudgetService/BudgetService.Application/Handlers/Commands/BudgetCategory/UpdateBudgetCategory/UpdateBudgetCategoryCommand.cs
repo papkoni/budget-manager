@@ -1,12 +1,8 @@
-using BudgetService.Domain.DTO;
+using BudgetService.Application.DTO;
 using MediatR;
 
 namespace BudgetService.Application.Handlers.Commands.BudgetCategory.UpdateBudgetCategory;
 
-public class UpdateBudgetCategoryCommand(
-    Guid id,
-    UpdateBudgetCategoryDto dto) : IRequest<Unit>
-{
-    public Guid Id { get; private set; } = id;       
-    public UpdateBudgetCategoryDto Dto { get; private set; } = dto;       
-}
+public record UpdateBudgetCategoryCommand(
+    Guid Id,
+    UpdateBudgetCategoryDto Dto) : IRequest<Unit>;

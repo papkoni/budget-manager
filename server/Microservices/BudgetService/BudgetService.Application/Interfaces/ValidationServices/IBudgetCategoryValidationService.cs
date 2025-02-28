@@ -1,10 +1,10 @@
-using BudgetService.Domain.DTO;
+using BudgetService.Application.DTO;
 
-namespace BudgetService.Domain.Interfaces.Validators;
+namespace BudgetService.Application.Interfaces.ValidationServices;
 
 public interface IBudgetCategoryValidationService
 { 
-    Task ValidateBudgetCategoriesForCategoryAsync(
+    Task ValidateBudgetCategoriesAsync(
         ValidateBudgetCategoriesDto dto, 
         CancellationToken cancellationToken);
 }

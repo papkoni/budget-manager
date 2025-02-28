@@ -8,8 +8,7 @@ using MediatR;
 namespace BudgetService.Application.Handlers.Commands.Goal.UpdateGoal;
 
 public class UpdateGoalCommandHandler(
-    IUnitOfWork unitOfWork,
-    IValidator<GoalEntity> validator) : IRequestHandler<UpdateGoalCommand, Unit>
+    IUnitOfWork unitOfWork) : IRequestHandler<UpdateGoalCommand, Unit>
 {
     public async Task<Unit> Handle(UpdateGoalCommand request, CancellationToken cancellationToken)
     {
@@ -17,13 +16,6 @@ public class UpdateGoalCommandHandler(
                      ?? throw new NotFoundException($"Goal with id {request.Id} doesn't exists");
 
         request.Dto.Adapt(goal);
-        
-        var validationResult = validator.Validate(goal);
-        if (!validationResult.IsValid)
-        {
-            var errors = validationResult.Errors.Select(e => e.ErrorMessage).ToList();
-            throw new BadRequestException(string.Join("; ", errors));
-        }
         
         unitOfWork.GoalRepository.Update(goal);
         await unitOfWork.SaveChangesAsync(cancellationToken);

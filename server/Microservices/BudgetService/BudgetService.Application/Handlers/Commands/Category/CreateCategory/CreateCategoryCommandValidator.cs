@@ -1,11 +1,10 @@
-using BudgetService.Domain.Entities;
 using FluentValidation;
 
-namespace BudgetService.Application.Validators;
+namespace BudgetService.Application.Handlers.Commands.Category.CreateCategory;
 
-public class CategoryValidator : AbstractValidator<CategoryEntity>
+public class CreateCategoryCommandValidator: AbstractValidator<CreateCategoryCommand>
 {
-    public CategoryValidator()
+    public CreateCategoryCommandValidator()
     {
         RuleFor(x => x.Name)
             .NotEmpty().WithMessage("Category name is required")

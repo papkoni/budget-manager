@@ -2,7 +2,7 @@ using BudgetService.Domain.Entities;
 
 namespace BudgetService.Domain.Interfaces.Repositories;
 
-public interface IBudgetRepository
+public interface IBudgetRepository: IBaseRepository<BudgetEntity>
 {
     Task<List<BudgetEntity>> GetByUserIdAsync(
         Guid userId, 
@@ -12,13 +12,4 @@ public interface IBudgetRepository
         DateTime currentDate, 
         Guid userId,
         CancellationToken cancellationToken);
-
-    Task<BudgetEntity?> GetAsync(
-        Guid id, 
-        CancellationToken cancellationToken);
-    Task CreateAsync(
-        BudgetEntity budget,
-        CancellationToken cancellationToken);
-    void Update(BudgetEntity budget);
-    void Delete(BudgetEntity budget);
 }

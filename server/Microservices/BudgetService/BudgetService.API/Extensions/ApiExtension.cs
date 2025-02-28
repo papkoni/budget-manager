@@ -1,4 +1,7 @@
+using BudgetService.API.Behaviors;
 using BudgetService.Application.Handlers.Commands.Budget.CreateBudget;
+using MediatR;
+
 
 namespace BudgetService.API.Extensions;
 
@@ -8,6 +11,11 @@ public static class ApiExtension
         this IServiceCollection services,
         IConfiguration configuration)
     {
-        services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(typeof(CreateBudgetCommandHandler).Assembly));
+        services.AddMediatR(cfg => cfg
+            .RegisterServicesFromAssembly(typeof(CreateBudgetCommandHandler).Assembly));
+        services.AddTransient(
+            typeof(IPipelineBehavior<,>), 
+            typeof(ValidationBehavior<,>)
+        );
     }
 }

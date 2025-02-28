@@ -1,12 +1,7 @@
 using BudgetService.API.Extensions;
 using BudgetService.API.Middlewares;
 using BudgetService.Application.Extensions;
-using BudgetService.Application.Handlers.Commands.Budget.CreateBudget;
-using BudgetService.Application.Validators;
-using BudgetService.Domain.Entities;
 using BudgetService.Persistence.Extensions;
-using FluentValidation;
-using MapsterMapper;
 
 var builder = WebApplication.CreateBuilder(args);
 

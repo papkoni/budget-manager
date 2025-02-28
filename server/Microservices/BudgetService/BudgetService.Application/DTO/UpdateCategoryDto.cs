@@ -1,4 +1,4 @@
-namespace BudgetService.Domain.DTO;
+namespace BudgetService.Application.DTO;
 
 public record UpdateCategoryDto(
     string Name,

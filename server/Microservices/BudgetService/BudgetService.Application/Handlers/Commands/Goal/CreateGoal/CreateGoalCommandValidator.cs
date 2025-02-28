@@ -1,11 +1,10 @@
-using BudgetService.Domain.Entities;
 using FluentValidation;
 
-namespace BudgetService.Application.Validators;
+namespace BudgetService.Application.Handlers.Commands.Goal.CreateGoal;
 
-public class GoalValidator : AbstractValidator<GoalEntity>
+public class CreateGoalCommandValidator: AbstractValidator<CreateGoalCommand>
 {
-    public GoalValidator()
+    public CreateGoalCommandValidator()
     {
         RuleFor(x => x.TargetAmount)
             .GreaterThan(0).WithMessage("TargetAmount must be greater than 0");

@@ -9,7 +9,8 @@ using BudgetService.Application.Handlers.Queries.Budget.GetBudgetById;
 using BudgetService.Application.Handlers.Queries.Budget.GetBudgetsByUserId;
 using BudgetService.Application.Handlers.Queries.BudgetCategory.GetBudgetCategoryByBudgetId;
 using BudgetService.Application.Handlers.Queries.BudgetCategory.GetBudgetCategoryById;
-using BudgetService.Domain.DTO;
+using BudgetService.Application.DTO;
+using BudgetService.Application.Handlers.Queries.BudgetCategory.GetBudgetCategoryByIdBudgetAndCategory;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
@@ -20,89 +21,101 @@ namespace BudgetService.API.Controllers;
 public class BudgetController(IMediator mediator): ControllerBase
 {
     [HttpGet("/users/{userId}/budgets")]
-    public async Task<IActionResult> GetByUserId([FromRoute] Guid userId)
+    public async Task<IActionResult> GetByUserId([FromRoute] Guid userId, CancellationToken cancellationToken)
     {
-        var budgets = await mediator.Send(new GetBudgetsByUserIdQuery(userId));
+        var budgets = await mediator.Send(new GetBudgetsByUserIdQuery(userId), cancellationToken);
 
         return Ok(budgets);
     }
+    //сделать эндпоинт для получения локальной категории по 2 айди
     
-    [HttpGet("categories/{id}")]
-    public async Task<IActionResult> GetBudgetCategoryById([FromRoute] Guid id)
+    [HttpGet("/budgets/{budgetId:Guid}/categories/{categoryId:Guid}")]
+    public async Task<IActionResult> GetBudgetCategoryById(
+        [FromRoute] Guid budgetId, 
+        [FromRoute] Guid categoryId, 
+        CancellationToken cancellationToken)
     {
-        var budgetCategory = await mediator.Send(new GetBudgetCategoryByIdQuery(id));
+        var budgetCategory = await mediator.Send(new GetBudgetCategoryByIdBudgetAndCategoryQuery(budgetId, categoryId), cancellationToken);
+    
+        return Ok(budgetCategory);
+    }
+    
+    [HttpGet("categories/{categoryId}")]
+    public async Task<IActionResult> GetBudgetCategoryById([FromRoute] Guid categoryId, CancellationToken cancellationToken)
+    {
+        var budgetCategory = await mediator.Send(new GetBudgetCategoryByIdQuery(categoryId), cancellationToken);
     
         return Ok(budgetCategory);
     }
     
     [HttpGet("{budgetId:Guid}/categories")]
-    public async Task<IActionResult> GetBudgetCategoryByBudgetId([FromRoute] Guid budgetId)
+    public async Task<IActionResult> GetBudgetCategoryByBudgetId([FromRoute] Guid budgetId, CancellationToken cancellationToken)
     {
-        var budgetCategory = await mediator.Send(new GetBudgetCategoryByBudgetIdQuery(budgetId));
+        var budgetCategory = await mediator.Send(new GetBudgetCategoryByBudgetIdQuery(budgetId), cancellationToken);
     
         return Ok(budgetCategory);
     }
     
-    [HttpGet("{id:Guid}")]
-    public async Task<IActionResult> GetById([FromRoute] Guid id)
+    [HttpGet("{budgetId:Guid}")]
+    public async Task<IActionResult> GetById([FromRoute] Guid id, CancellationToken cancellationToken)
     {
-        var budget = await mediator.Send(new GetBudgetByIdQuery(id));
+        var budget = await mediator.Send(new GetBudgetByIdQuery(id), cancellationToken);
 
         return Ok(budget);
     }
-    
-    [HttpGet("/users/{userId:Guid}/budgets/date/{currentDate:DateTime}")]
-    public async Task<IActionResult> GetActiveUserBudgets([FromRoute] Guid userId, DateTime currentDate)
+
+    [HttpGet("/users/{userId:Guid}/budgets/active")]
+    public async Task<IActionResult> GetActiveUserBudgets([FromRoute] Guid userId,[FromQuery] DateTime currentDate, CancellationToken cancellationToken)
     {
-        var budgets = await mediator.Send(new GetActiveBudgetsByUserIdQuery(userId, currentDate));
+        var budgets = await mediator.Send(new GetActiveBudgetsByUserIdQuery(userId, currentDate), cancellationToken);
     
         return Ok(budgets);
     }
     
     [HttpPost("categories")]
-    public async Task<IActionResult> Create([FromBody] CreateBudgetCategoryCommand request)
+    public async Task<IActionResult> Create([FromBody] CreateBudgetCategoryCommand request, CancellationToken cancellationToken)
     {
-        var budgetCategory = await mediator.Send(request);
+        var budgetCategory = await mediator.Send(request, cancellationToken);
     
         return Ok(budgetCategory);
     }
     
     [HttpPost]
-    public async Task<IActionResult> Create([FromBody] CreateBudgetCommand request)
+    public async Task<IActionResult> Create([FromBody] CreateBudgetCommand request, CancellationToken cancellationToken)
     {
-        var budget = await mediator.Send(request);
+        var budget = await mediator.Send(request, cancellationToken);
 
         return Ok(budget);
     }
 
-    [HttpPut("{id:Guid}")]
-    public async Task<IActionResult> Update([FromRoute] Guid id, [FromBody] UpdateBudgetDto dto)
+    [HttpPut("{budgetId:Guid}")]
+    public async Task<IActionResult> Update([FromRoute] Guid id, [FromBody] UpdateBudgetDto dto, CancellationToken cancellationToken)
     {
-        await mediator.Send(new UpdateBudgetCommand(id, dto));
+        await mediator.Send(new UpdateBudgetCommand(id, dto), cancellationToken);
     
         return NoContent();
     }
     
-    [HttpPut("categories/{id:Guid}")]
-    public async Task<IActionResult> Update([FromRoute] Guid id, [FromBody] UpdateBudgetCategoryDto dto)
+    [HttpPut("categories/{categoryId:Guid}")]
+    public async Task<IActionResult> Update([FromRoute] Guid categoryId, [FromBody] UpdateBudgetCategoryDto dto, CancellationToken cancellationToken)
     {
-        await mediator.Send(new UpdateBudgetCategoryCommand(id, dto));
+        await mediator.Send(new UpdateBudgetCategoryCommand(categoryId, dto), cancellationToken);
     
         return NoContent();
     }
     
-    [HttpDelete("{id:Guid}")]
-    public async Task<IActionResult> Delete([FromRoute] Guid id)
+    [HttpDelete("{budgetId:Guid}")]
+    public async Task<IActionResult> Delete([FromRoute] Guid id, CancellationToken cancellationToken)
     {
-        await mediator.Send(new DeleteBudgetCommand(id));
+        await mediator.Send(new DeleteBudgetCommand(id), cancellationToken);
     
         return NoContent();
     }
     
-    [HttpDelete("categories/{id}")]
-    public async Task<IActionResult> DeleteBudgetCategory([FromRoute] Guid id)
+    [HttpDelete("categories/{categoryId}")]
+    public async Task<IActionResult> DeleteBudgetCategory([FromRoute] Guid categoryId, CancellationToken cancellationToken)
     {
-        await mediator.Send(new DeleteBudgetCategoryCommand(id));
+        await mediator.Send(new DeleteBudgetCategoryCommand(categoryId), cancellationToken);
 
         return NoContent();
     }
