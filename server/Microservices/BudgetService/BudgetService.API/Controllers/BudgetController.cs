@@ -27,7 +27,6 @@ public class BudgetController(IMediator mediator): ControllerBase
 
         return Ok(budgets);
     }
-    //сделать эндпоинт для получения локальной категории по 2 айди
     
     [HttpGet("/budgets/{budgetId:Guid}/categories/{categoryId:Guid}")]
     public async Task<IActionResult> GetBudgetCategoryById(
