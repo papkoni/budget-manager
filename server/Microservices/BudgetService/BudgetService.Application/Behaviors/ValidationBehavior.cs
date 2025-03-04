@@ -1,7 +1,7 @@
 using FluentValidation;
 using MediatR;
 
-namespace BudgetService.API.Behaviors;
+namespace BudgetService.Application.Behaviors;
 
 public class ValidationBehavior<TRequest, TResponse>(
     IEnumerable<IValidator<TRequest>> validators) : IPipelineBehavior<TRequest, TResponse>

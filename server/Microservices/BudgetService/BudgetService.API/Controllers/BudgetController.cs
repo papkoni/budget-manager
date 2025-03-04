@@ -34,7 +34,11 @@ public class BudgetController(IMediator mediator): ControllerBase
         [FromRoute] Guid categoryId, 
         CancellationToken cancellationToken)
     {
-        var budgetCategory = await mediator.Send(new GetBudgetCategoryByIdBudgetAndCategoryQuery(budgetId, categoryId), cancellationToken);
+        var budgetCategory = await mediator.Send(
+            new GetBudgetCategoryByIdBudgetAndCategoryQuery(
+                budgetId,
+                categoryId), 
+            cancellationToken);
     
         return Ok(budgetCategory);
     }
@@ -83,7 +87,7 @@ public class BudgetController(IMediator mediator): ControllerBase
     public async Task<IActionResult> Create([FromBody] CreateBudgetCommand request, CancellationToken cancellationToken)
     {
         var budget = await mediator.Send(request, cancellationToken);
-
+        
         return Ok(budget);
     }
 

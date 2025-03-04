@@ -5,9 +5,5 @@ namespace BudgetService.Persistence.Interfaces;
 
 public interface IBudgetServiceDbContext
 {
-    DbSet<BudgetCategoryEntity> BudgetCategories { get; }
-    DbSet<BudgetEntity> Budgets { get; }
-    DbSet<CategoryEntity> Categories { get; }
-    DbSet<GoalEntity> Goals { get; }
     DbSet<T> Set<T>() where T : class;
 }

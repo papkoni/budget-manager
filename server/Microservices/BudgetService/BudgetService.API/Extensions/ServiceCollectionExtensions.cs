@@ -1,11 +1,9 @@
-using BudgetService.API.Behaviors;
+using System.Text.Json.Serialization;
 using BudgetService.Application.Handlers.Commands.Budget.CreateBudget;
-using MediatR;
-
 
 namespace BudgetService.API.Extensions;
 
-public static class ApiExtension
+public static class ServiceCollectionExtensions
 {
     public static void AddApi(
         this IServiceCollection services,
@@ -13,9 +11,5 @@ public static class ApiExtension
     {
         services.AddMediatR(cfg => cfg
             .RegisterServicesFromAssembly(typeof(CreateBudgetCommandHandler).Assembly));
-        services.AddTransient(
-            typeof(IPipelineBehavior<,>), 
-            typeof(ValidationBehavior<,>)
-        );
     }
 }

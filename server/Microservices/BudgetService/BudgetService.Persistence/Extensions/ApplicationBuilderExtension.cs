@@ -4,7 +4,7 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace BudgetService.Persistence.Extensions;
 
-public static class MigrationExtensions
+public static class ApplicationBuilderExtension
 {
     public static void ApplyMigrations(this IApplicationBuilder app)
     {

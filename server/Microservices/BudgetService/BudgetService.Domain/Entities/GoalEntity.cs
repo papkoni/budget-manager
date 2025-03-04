@@ -17,6 +17,7 @@ public class GoalEntity
         CreatedAt = DateTime.UtcNow;
         Name = name;
     }
+    
     public Guid Id { get; set; }                   // Уникальный идентификатор цели
     public Guid UserId { get; set; }                // Ссылка на пользователя
     public decimal TargetAmount { get; set; }       // Целевая сумма

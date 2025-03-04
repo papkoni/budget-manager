@@ -10,7 +10,7 @@ public class BudgetRepository(
 {
     public async Task<List<BudgetEntity>> GetByUserIdAsync(Guid userId, CancellationToken cancellationToken)
     {
-        return await context.Budgets
+        return await _dbSet
             .Where(b => b.UserId == userId)
             .AsNoTracking()
             .ToListAsync(cancellationToken);
@@ -21,7 +21,7 @@ public class BudgetRepository(
         Guid userId,
         CancellationToken cancellationToken)
     {
-        return await context.Budgets
+        return await _dbSet
             .Where(b => b.StartDate <= currentDate && 
                         (b.EndDate == null || b.EndDate >= currentDate) &&
                         b.UserId == userId)

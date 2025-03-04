@@ -11,7 +11,7 @@ public class GoalRepository(
 {
     public async Task<List<GoalEntity>> GetByUserIdAsync(Guid userId, CancellationToken cancellationToken)
     {
-        return await context.Goals
+        return await _dbSet
             .Where(g => g.UserId == userId)
             .AsNoTracking()
             .ToListAsync(cancellationToken);

@@ -10,6 +10,6 @@ public class CategoryRepository(
 {
     public async Task<List<CategoryEntity>> GetAllAsync(CancellationToken cancellationToken)
     {
-        return await context.Categories.ToListAsync(cancellationToken);
+        return await _dbSet.ToListAsync(cancellationToken);
     }
 }

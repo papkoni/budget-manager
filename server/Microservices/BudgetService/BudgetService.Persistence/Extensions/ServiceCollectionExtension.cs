@@ -10,7 +10,7 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace BudgetService.Persistence.Extensions;
 
-public static class PersistenceExtension
+public static class ServiceCollectionExtension
 {
     public static void AddPersistence(
         this IServiceCollection services,

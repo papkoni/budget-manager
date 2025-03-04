@@ -1,4 +1,5 @@
 using BudgetService.Domain.Entities;
+using BudgetService.Domain.Enums;
 using MediatR;
 
 namespace BudgetService.Application.Handlers.Commands.Budget.CreateBudget;

@@ -1,7 +1,9 @@
+using BudgetService.Domain.Enums;
+
 namespace BudgetService.Application.DTO;
 
 public record UpdateBudgetDto(
     decimal Amount,
     string Currency,
-    string PeriodType,
+    Period PeriodType,
     string Name);

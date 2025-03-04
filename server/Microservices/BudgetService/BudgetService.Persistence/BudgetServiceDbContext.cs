@@ -11,11 +11,6 @@ public class BudgetServiceDbContext : DbContext, IBudgetServiceDbContext
     {
     }
     
-    public DbSet<BudgetCategoryEntity> BudgetCategories { get; set; }
-    public DbSet<BudgetEntity> Budgets { get; set; }
-    public DbSet<CategoryEntity> Categories { get; set; }
-    public DbSet<GoalEntity> Goals { get; set; }
-    
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.ApplyConfiguration(new BudgetCategoryEntityConfiguration());

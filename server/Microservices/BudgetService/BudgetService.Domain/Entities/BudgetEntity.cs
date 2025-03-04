@@ -1,3 +1,5 @@
+using BudgetService.Domain.Enums;
+
 namespace BudgetService.Domain.Entities;
 
 public class BudgetEntity
@@ -6,7 +8,7 @@ public class BudgetEntity
         Guid userId,
         decimal amount,
         string currency, 
-        string periodType,
+        Period periodType,
         DateTime startDate,
         DateTime endDate, 
         string name)
@@ -22,11 +24,12 @@ public class BudgetEntity
         CreatedAt = DateTime.UtcNow;
         UpdatedAt = DateTime.UtcNow;
     }
+    
     public Guid Id { get; set; }
     public Guid UserId { get; set; }
     public decimal Amount { get; set; }
     public string Currency { get; set; }
-    public string PeriodType { get; set; }
+    public Period PeriodType { get; set; }
     public DateTime StartDate { get; set; }
     public DateTime EndDate { get; set; }
     public string Name { get; set; }

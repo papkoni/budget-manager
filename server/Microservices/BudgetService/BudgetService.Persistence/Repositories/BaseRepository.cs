@@ -7,7 +7,7 @@ namespace BudgetService.Persistence.Repositories;
 public class BaseRepository<T>(
     IBudgetServiceDbContext context) : IBaseRepository<T> where T : class
 {
-    private readonly DbSet<T> _dbSet = context.Set<T>();
+    protected readonly DbSet<T> _dbSet = context.Set<T>();
 
     public async Task<T?> GetAsync(Guid id, CancellationToken cancellationToken)
     {

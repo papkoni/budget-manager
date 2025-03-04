@@ -11,11 +11,7 @@ public class CreateBudgetCommandValidator: AbstractValidator<CreateBudgetCommand
 
         RuleFor(x => x.Currency)
             .NotEmpty().WithMessage("Currency is required");
-
-        RuleFor(x => x.PeriodType)
-            .Must(pt => pt == "monthly" || pt == "yearly")
-            .WithMessage("PeriodType must be 'monthly' or 'yearly'");
-
+        
         RuleFor(x => x.StartDate)
             .GreaterThanOrEqualTo(DateTime.UtcNow)
             .WithMessage("StartDate must not be in the past");

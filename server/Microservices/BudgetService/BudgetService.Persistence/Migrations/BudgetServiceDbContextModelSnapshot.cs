@@ -74,10 +74,9 @@ namespace BudgetService.Persistence.Migrations
                         .HasMaxLength(50)
                         .HasColumnType("character varying(50)");
 
-                    b.Property<string>("PeriodType")
-                        .IsRequired()
+                    b.Property<int>("PeriodType")
                         .HasMaxLength(50)
-                        .HasColumnType("character varying(50)");
+                        .HasColumnType("integer");
 
                     b.Property<DateTime>("StartDate")
                         .HasColumnType("timestamp with time zone");
@@ -147,7 +146,7 @@ namespace BudgetService.Persistence.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Goals");
+                    b.ToTable("GoalEntity");
                 });
 
             modelBuilder.Entity("BudgetService.Domain.Entities.BudgetCategoryEntity", b =>

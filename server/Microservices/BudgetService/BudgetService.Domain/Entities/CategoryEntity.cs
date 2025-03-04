@@ -13,6 +13,7 @@ public class CategoryEntity
         GlobalSpent = globalSpent;
         CreatedAt = DateTime.UtcNow;
     }
+    
     public Guid Id { get; set; }
     public string Name { get; set; }
     public decimal GlobalLimit { get; set; }

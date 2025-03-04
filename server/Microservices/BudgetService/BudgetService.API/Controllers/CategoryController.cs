@@ -25,6 +25,7 @@ public class CategoryController(IMediator mediator): ControllerBase
     public async Task<IActionResult> GetAllCategories(CancellationToken cancellationToken)
     {
         var categories = await mediator.Send(new GetCategoriesQuery(), cancellationToken);
+        
         return Ok(categories);
     }
     

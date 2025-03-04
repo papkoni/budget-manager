@@ -13,8 +13,8 @@ public class UpdateBudgetCommandValidator: AbstractValidator<UpdateBudgetCommand
             .NotEmpty().WithMessage("Currency is required");
 
         RuleFor(x => x.Dto.PeriodType)
-            .Must(pt => pt == "monthly" || pt == "yearly")
-            .WithMessage("PeriodType must be 'monthly' or 'yearly'");
+            .IsInEnum()
+            .WithMessage("Invalid period type.");
 
         RuleFor(x => x.Dto.Name)
             .NotEmpty().WithMessage("Name is required")

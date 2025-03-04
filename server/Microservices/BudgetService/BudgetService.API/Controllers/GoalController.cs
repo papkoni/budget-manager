@@ -13,7 +13,7 @@ namespace BudgetService.API.Controllers;
 [Route("goals")]
 public class GoalController(IMediator mediator): ControllerBase
 {
-    [HttpGet("{idGoal:Guid}")]
+    [HttpGet("{goalId:Guid}")]
     public async Task<IActionResult> GetById([FromRoute] Guid idGoal, CancellationToken cancellationToken)
     {
         var goal = await mediator.Send(new GetGoalByIdQuery(idGoal), cancellationToken);
@@ -37,7 +37,7 @@ public class GoalController(IMediator mediator): ControllerBase
         return Ok(goal);
     }
     
-    [HttpPut("{idGoal:Guid}")]
+    [HttpPut("{goalId:Guid}")]
     public async Task<IActionResult> Update([FromRoute] Guid idGoal, [FromBody] UpdateGoalDto dto, CancellationToken cancellationToken)
     {
         await mediator.Send(new UpdateGoalCommand(idGoal, dto), cancellationToken);
@@ -45,7 +45,7 @@ public class GoalController(IMediator mediator): ControllerBase
         return NoContent();
     }
     
-    [HttpDelete("{idGoal:Guid}")]
+    [HttpDelete("{goalId:Guid}")]
     public async Task<IActionResult> Delete([FromRoute] Guid idGoal, CancellationToken cancellationToken)
     {
         await mediator.Send(new DeleteGoalCommand(idGoal), cancellationToken);
