@@ -8,7 +8,7 @@ public record CreateBudgetCommand(
     Guid UserId,
     decimal Amount,
     string Currency,
-    string PeriodType,
+    Period PeriodType,
     DateTime StartDate,
     DateTime EndDate,
     string Name) : IRequest<BudgetEntity>;

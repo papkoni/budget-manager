@@ -25,6 +25,6 @@ public static class ServiceCollectionExtensions
             typeof(IPipelineBehavior<,>),
             typeof(ValidationBehavior<,>)
             );
-        TypeAdapterConfig.GlobalSettings.Scan(typeof(MappingConfigCreateBudget).Assembly);
+        services.AddAutoMapper(typeof(BudgetProfile).Assembly);
     }
 }

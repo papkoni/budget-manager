@@ -1,3 +1,6 @@
+using System;
+using System.Threading;
+using System.Threading.Tasks;
 using BudgetService.Application.Handlers.Commands.Budget.CreateBudget;
 using BudgetService.Application.Handlers.Commands.Budget.DeleteBudget;
 using BudgetService.Application.Handlers.Commands.Budget.UpdateBudget;
@@ -60,9 +63,9 @@ public class BudgetController(IMediator mediator): ControllerBase
     }
     
     [HttpGet("{budgetId:Guid}")]
-    public async Task<IActionResult> GetById([FromRoute] Guid id, CancellationToken cancellationToken)
+    public async Task<IActionResult> GetById([FromRoute] Guid budgetId, CancellationToken cancellationToken)
     {
-        var budget = await mediator.Send(new GetBudgetByIdQuery(id), cancellationToken);
+        var budget = await mediator.Send(new GetBudgetByIdQuery(budgetId), cancellationToken);
 
         return Ok(budget);
     }
@@ -92,9 +95,9 @@ public class BudgetController(IMediator mediator): ControllerBase
     }
 
     [HttpPut("{budgetId:Guid}")]
-    public async Task<IActionResult> Update([FromRoute] Guid id, [FromBody] UpdateBudgetDto dto, CancellationToken cancellationToken)
+    public async Task<IActionResult> Update([FromRoute] Guid budgetId, [FromBody] UpdateBudgetDto dto, CancellationToken cancellationToken)
     {
-        await mediator.Send(new UpdateBudgetCommand(id, dto), cancellationToken);
+        await mediator.Send(new UpdateBudgetCommand(budgetId, dto), cancellationToken);
     
         return NoContent();
     }
@@ -108,9 +111,9 @@ public class BudgetController(IMediator mediator): ControllerBase
     }
     
     [HttpDelete("{budgetId:Guid}")]
-    public async Task<IActionResult> Delete([FromRoute] Guid id, CancellationToken cancellationToken)
+    public async Task<IActionResult> Delete([FromRoute] Guid budgetId, CancellationToken cancellationToken)
     {
-        await mediator.Send(new DeleteBudgetCommand(id), cancellationToken);
+        await mediator.Send(new DeleteBudgetCommand(budgetId), cancellationToken);
     
         return NoContent();
     }

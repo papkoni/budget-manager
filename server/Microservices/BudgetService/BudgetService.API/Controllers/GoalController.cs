@@ -1,3 +1,6 @@
+using System;
+using System.Threading;
+using System.Threading.Tasks;
 using BudgetService.Application.Handlers.Commands.Goal.CreateGoal;
 using BudgetService.Application.Handlers.Commands.Goal.DeleteGoal;
 using BudgetService.Application.Handlers.Commands.Goal.UpdateGoal;
@@ -14,9 +17,9 @@ namespace BudgetService.API.Controllers;
 public class GoalController(IMediator mediator): ControllerBase
 {
     [HttpGet("{goalId:Guid}")]
-    public async Task<IActionResult> GetById([FromRoute] Guid idGoal, CancellationToken cancellationToken)
+    public async Task<IActionResult> GetById([FromRoute] Guid goalId, CancellationToken cancellationToken)
     {
-        var goal = await mediator.Send(new GetGoalByIdQuery(idGoal), cancellationToken);
+        var goal = await mediator.Send(new GetGoalByIdQuery(goalId), cancellationToken);
 
         return Ok(goal);
     }
@@ -38,9 +41,9 @@ public class GoalController(IMediator mediator): ControllerBase
     }
     
     [HttpPut("{goalId:Guid}")]
-    public async Task<IActionResult> Update([FromRoute] Guid idGoal, [FromBody] UpdateGoalDto dto, CancellationToken cancellationToken)
+    public async Task<IActionResult> Update([FromRoute] Guid goalId, [FromBody] UpdateGoalDto dto, CancellationToken cancellationToken)
     {
-        await mediator.Send(new UpdateGoalCommand(idGoal, dto), cancellationToken);
+        await mediator.Send(new UpdateGoalCommand(goalId, dto), cancellationToken);
     
         return NoContent();
     }

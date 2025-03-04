@@ -16,10 +16,14 @@ public class CreateBudgetCommandValidator: AbstractValidator<CreateBudgetCommand
             .GreaterThanOrEqualTo(DateTime.UtcNow)
             .WithMessage("StartDate must not be in the past");
 
+        RuleFor(x => x.PeriodType)
+            .IsInEnum()
+            .WithMessage("Invalid period type.");
+        
         RuleFor(x => x.EndDate)
             .GreaterThan(x => x.StartDate)
             .WithMessage("EndDate must be later than StartDate");
-
+        
         RuleFor(x => x.Name)
             .NotEmpty().WithMessage("Name is required")
             .MaximumLength(100).WithMessage("Name cannot exceed 100 characters");

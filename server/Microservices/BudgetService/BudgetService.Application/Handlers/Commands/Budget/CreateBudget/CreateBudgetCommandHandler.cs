@@ -1,6 +1,6 @@
+using AutoMapper;
 using BudgetService.Domain.Entities;
 using BudgetService.Domain.Interfaces.Repositories.UnitOfWork;
-using MapsterMapper;
 using MediatR;
 
 namespace BudgetService.Application.Handlers.Commands.Budget.CreateBudget;
