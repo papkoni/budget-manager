@@ -17,7 +17,7 @@ public class UserController: ControllerBase
         _userService = userService;
     }
     
-    [Authorize]
+    //[Authorize]
     [HttpGet]
     public async Task<ActionResult<List<UsersResponse>>> GetAllUsers(CancellationToken cancellationToken)
     {
@@ -26,7 +26,7 @@ public class UserController: ControllerBase
         return Ok(response);
     }
     
-    [Authorize]
+    //[Authorize]
     [HttpGet("{id}")]
     public async Task<IActionResult> GetUserById([FromRoute] Guid id, CancellationToken cancellationToken)
     {
